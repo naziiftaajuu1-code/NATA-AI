@@ -5,58 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NATA AI Platform</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 40px auto; background: #1e1e1e; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        h1 { color: #00e676; text-align: center; font-size: 26px; margin-bottom: 5px; }
-        label { display: block; margin: 15px 0 5px; color: #bbb; font-weight: bold; }
-        select, textarea, button { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #333; background: #2a2a2a; color: #fff; box-sizing: border-box; font-size: 16px; }
-        select:focus, textarea:focus { border-color: #00e676; outline: none; }
-        button { background-color: #00e676; color: #000; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
-        button:hover { background-color: #00c853; }
-        .response-box { background: #2d2d2d; padding: 15px; border-radius: 5px; border-left: 4px solid #00e676; min-height: 60px; white-space: pre-wrap; color: #e0e0e0; line-height: 1.5; }
-        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #666; }
+        :root {
+            --primary: #00e676;
+            --bg-dark: #0f0f12;
+            --card-bg: #1a1a24;
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --border: #2a2a3a;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 14px;
+            background: #12121a;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(0, 230, 118, 0.2);
+        }
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+        }
+        button:active {
+            transform: scale(0.98);
+            background: #00c853;
+        }
+        .output-container {
+            margin-top: 25px;
+        }
+        .output-box {
+            background: #12121a;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 15px;
+            min-height: 80px;
+            font-size: 15px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #e0e0e0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+        .payment-badge {
+            display: inline-block;
+            background: #222232;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #00e676;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>NATA AI Platform 🇪🇹</h1>
-        <p style="text-align:center; color:#aaa; font-size:14px; margin-top:0;">Multi-AI Service for Ethiopia</p>
+    <div class="app-container">
+        <div class="header">
+            <h1>NATA AI</h1>
+            <p>Multi-Functional AI Platform</p>
+        </div>
         
-        <label for="ai-model">Filadhu (Choose AI):</label>
-        <select id="ai-model">
-            <option value="Gemini AI (Google)">Gemini AI (Google)</option>
-            <option value="ChatGPT (OpenAI)">ChatGPT (OpenAI)</option>
-            <option value="Claude AI (Anthropic)">Claude AI (Anthropic)</option>
-        </select>
-
-        <label for="prompt">Gaaffii kee barreessi (Enter Prompt):</label>
-        <textarea id="prompt" rows="4" placeholder="Afaan Barbaaddun gaafadhu..."></textarea>
-
-        <button onclick="sendRequest()">Ergi (Send)</button>
-
-        <label>Deebii AI (Response):</label>
-        <div id="response" class="response-box">Akkam jirtu! NATA AI qophaadha. Gaaffii kee olitti barreessiitii Ergi cuqaasi.</div>
+        <div class="form-group">
+            <label for="model-select">Filadhu (Choose Model)</label>
+            <select id="model-select">
+                <option value="Gemini Pro">Gemini Pro (Google)</option>
+                <option value="ChatGPT (GPT-4o)">ChatGPT (OpenAI)</option>
+                <option value="Claude 3.5 Sonnet">Claude 3.5 Sonnet (Anthropic)</option>
+            </select>
+        </div>
         
-        <div class="footer">⚡ Powered by Naziif Taajuu | Telebirr & M-pesa Coming Soon</div>
+        <div class="form-group">
+            <label for="user-prompt">Gaaffii Keessan (Your Prompt)</label>
+            <textarea id="user-prompt" placeholder="Afaan barbaaddaniin as irratti gaafadha..."></textarea>
+        </div>
+        
+        <button onclick="processAI()">Ergi / Send</button>
+        
+        <div class="output-container">
+            <label>Deebii AI (Response)</label>
+            <div id="output-box" class="output-box">Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...</div>
+        </div>
+        
+        <div class="footer">
+            <div>© 2026 NATA AI. All Rights Reserved.</div>
+            <div style="margin-top: 5px; font-weight: 600; color: #text-main;">Developed by Naziif Taajuu</div>
+            <div class="payment-badge">Telebirr & M-Pesa Integration Coming Soon</div>
+        </div>
     </div>
 
     <script>
-        function sendRequest() {
-            const model = document.getElementById('ai-model').value;
-            const prompt = document.getElementById('prompt').value;
-            const responseBox = document.getElementById('response');
+        function processAI() {
+            const model = document.getElementById('model-select').value;
+            const prompt = document.getElementById('user-prompt').value.trim();
+            const output = document.getElementById('output-box');
             
-            if(!prompt.trim()) { 
-                alert('Maaloo dura gaaffii kee barreessi!'); 
-                return; 
+            if (!prompt) {
+                alert('Maaloo dura gaaffii keessan barreessaa!');
+                return;
             }
             
-            responseBox.innerText = "⚡ NATA AI yaadaa jira...";
+            output.innerHTML = '<span style="color: #00e676; font-weight: bold;">⚡ NATA AI yaadaa jira...</span>';
             
-            // Simulation for instant prototype testing
             setTimeout(() => {
-                responseBox.innerText = `[NATA AI - ${model}]:\n\nNaziif ko, mul'atni kee guddaadha! Gaaffiin kee: "${prompt}" jedhu nagaadhan qaqqabeera.\n\nWeebsaayitiin keenya kallaattiidhaan Cloud irra ka'eera. Kun hojii boonsaa jalqabaati!`;
-            }, 1000);
+                output.innerText = `[NATA AI - ${model}]:\n\nNaziif ko, weebsaayitiin NATA AI milkaa'inaan hojjechaa jira!\n\nGaaffiin kee: "${prompt}" jedhu sirriitti qaqqabeera.\n\nPrototype keenya kun koodii ARM64-v8a fi bilbila kee (4GB RAM) irratti akka salphaatti akka hojjetuuf saffisa ol'aanaan optimajeeffameera.`;
+            }, 1200);
         }
     </script>
 </body>
