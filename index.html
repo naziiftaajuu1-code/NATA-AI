@@ -3,187 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NATA AI Platform</title>
+    <title>NATA AI - Intelligent Platform</title>
     <style>
         :root {
-            --primary: #00e676;
-            --bg-dark: #0f0f12;
-            --card-bg: #1a1a24;
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-            --border: #2a2a3a;
+            --primary: #00ff87;
+            --secondary: #60efff;
+            --bg: #07070c;
+            --surface: #12121e;
+            --border: #222235;
+            --text: #ffffff;
+            --muted: #8e8eaf;
+            --gold: #ffd700;
         }
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 15px;
+            padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
-            box-sizing: border-box;
         }
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border);
+        /* Top Navbar */
+        .navbar {
+            background: var(--surface);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .header h1 {
-            font-size: 28px;
-            color: var(--primary);
-            margin: 0 0 5px 0;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin: 0;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        select, textarea {
-            width: 100%;
-            padding: 14px;
-            background: #12121a;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            border-radius: 12px;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-        select:focus, textarea:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 8px rgba(0, 230, 118, 0.2);
-        }
-        textarea {
-            resize: none;
-            height: 100px;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: #000000;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
-        }
-        button:active {
-            transform: scale(0.98);
-            background: #00c853;
-        }
-        .output-container {
-            margin-top: 25px;
-        }
-        .output-box {
-            background: #12121a;
-            border-left: 4px solid var(--primary);
-            border-radius: 0 12px 12px 0;
-            padding: 15px;
-            min-height: 80px;
-            font-size: 15px;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            color: #e0e0e0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 12px;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            padding-top: 15px;
-        }
-        .payment-badge {
-            display: inline-block;
-            background: #222232;
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-top: 8px;
-            font-size: 11px;
-            color: #00e676;
-            font-weight: 600;
-        }
+        .logo { font-size: 24px; font-weight: 900; background: linear-gradient(45deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .coin-badge { background: rgba(255, 215, 0, 0.1); border: 1px solid var(--gold); color: var(--gold); padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 13px; }
+        .free-badge { background: rgba(0, 255, 135, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 13px; }
+        .btn-login { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: #000; border: none; padding: 7px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; }
+        
+        /* Main Layout */
+        .main-container { display: flex; flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; box-sizing: border-box; }
+        .content { flex: 1; padding: 15px; display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        
+        /* Tabs Switcher */
+        .tabs { display: flex; background: var(--surface); padding: 5px; border-radius: 12px; border: 1px solid var(--border); }
+        .tab { flex: 1; text-align: center; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s; color: var(--muted); }
+        .tab.active { background: #1a1a2e; color: var(--text); border: 1px solid var(--border); }
+
+        /* Dashboard Card */
+        .card { background: var(--surface); border-radius: 16px; padding: 20px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 6px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        select, textarea { width: 100%; padding: 12px; background: #080812; border: 1px solid var(--border); color: var(--text); border-radius: 10px; font-size: 15px; outline: none; box-sizing: border-box; transition: 0.3s; }
+        select:focus, textarea:focus { border-color: var(--secondary); }
+        
+        /* Description for Selected Model */
+        .model-desc { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 10px; font-size: 12px; color: var(--muted); margin-top: -10px; margin-bottom: 15px; line-height: 1.4; border-left: 2px solid var(--secondary); }
+
+        .btn-generate { width: 100%; padding: 14px; background: linear-gradient(45deg, var(--primary), var(--secondary)); color: #000; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 255, 135, 0.2); transition: 0.2s; }
+        .btn-generate:active { transform: scale(0.98); }
+        
+        /* Output Box */
+        .output-box { background: #080812; border-radius: 10px; padding: 15px; min-height: 80px; border-left: 4px solid var(--primary); font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+        
+        /* Package Section Styling */
+        .pkg-grid { display: flex; flex-direction: column; gap: 12px; }
+        .pkg-card { background: #181829; border: 1px solid var(--border); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .pkg-info h3 { margin: 0 0 4px 0; font-size: 16px; color: var(--primary); }
+        .pkg-info p { margin: 0; font-size: 12px; color: var(--muted); }
+        .pkg-price { text-align: right; }
+        .pkg-cost { font-weight: bold; color: var(--gold); font-size: 15px; }
+        .btn-buy { background: rgba(96, 239, 255, 0.1); border: 1px solid var(--secondary); color: var(--secondary); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-top: 5px; cursor: pointer; }
+
+        .ad-banner { background: repeating-linear-gradient(45deg, #12121e, #12121e 10px, #171726 10px, #171726 20px); border: 1px dashed var(--muted); padding: 12px; text-align: center; color: var(--muted); border-radius: 10px; font-size: 11px; }
+        .footer { text-align: center; padding: 15px; color: var(--muted); font-size: 11px; border-top: 1px solid var(--border); margin-top: auto; }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <h1>NATA AI</h1>
-            <p>Multi-Functional AI Platform</p>
-        </div>
-        
-        <div class="form-group">
-            <label for="model-select">Filadhu (Choose Model)</label>
-            <select id="model-select">
-                <option value="Gemini Pro">Gemini Pro (Google)</option>
-                <option value="ChatGPT (GPT-4o)">ChatGPT (OpenAI)</option>
-                <option value="Claude 3.5 Sonnet">Claude 3.5 Sonnet (Anthropic)</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="user-prompt">Gaaffii Keessan (Your Prompt)</label>
-            <textarea id="user-prompt" placeholder="Afaan barbaaddaniin as irratti gaafadha..."></textarea>
-        </div>
-        
-        <button onclick="processAI()">Ergi / Send</button>
-        
-        <div class="output-container">
-            <label>Deebii AI (Response)</label>
-            <div id="output-box" class="output-box">Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...</div>
-        </div>
-        
-        <div class="footer">
-            <div>© 2026 NATA AI. All Rights Reserved.</div>
-            <div style="margin-top: 5px; font-weight: 600; color: #text-main;">Developed by Naziif Taajuu</div>
-            <div class="payment-badge">Telebirr & M-Pesa Integration Coming Soon</div>
+
+    <div class="navbar">
+        <div class="logo">NATA AI</div>
+        <div class="nav-actions">
+            <div class="free-badge" id="free-count">🎁 Oro: 5 Bilisa</div>
+            <div class="coin-badge" id="coin-count">🪙 100 Coins</div>
+            <button class="btn-login" onclick="alert('Sirni account uumuu Firebase itti aanuun dhufa!')">Log In</button>
         </div>
     </div>
 
+    <div class="main-container">
+        <div class="content">
+            
+            <div class="tabs">
+                <div class="tab active" id="tab-ai" onclick="switchTab('ai')">⚡ AI Workspace</div>
+                <div class="tab" id="tab-pkg" onclick="switchTab('pkg')">📦 Pakeejiiwwan</div>
+            </div>
+
+            <div id="panel-ai" class="card">
+                <label>Filadhu (Choose NATA Tier)</label>
+                <select id="model-select" onchange="updateModelInfo()">
+                    <option value="oro">✨ ORO (Gaaffii Salphaa)</option>
+                    <option value="bokkuu">📜 BOKKUU (Giddu-galeessa)</option>
+                    <option value="gadaa">🦅 GADAA (Cimaa & Walxaxaa)</option>
+                    <option value="melbaa">🎨 MELBAA (Suuraa Qulqulluu)</option>
+                </select>
+                <div style="margin-bottom: 15px;"></div>
+                
+                <div id="model-info" class="model-desc">
+                    Madda: Gemini Flash-Lite & Google AI<br>
+                    Baasii: Baasii gadi aanaa (Hamma tokko Bilisa)
+                </div>
+
+                <label id="prompt-label">Waan Barbaaddan Asirratti Barreessaa</label>
+                <textarea id="user-prompt" placeholder="Afaan fedhteen asirratti gaafadhu..."></textarea>
+                <div style="margin-bottom: 15px;"></div>
+
+                <button class="btn-generate" onclick="executeNataPlatform()">Hojjedhu / Generate</button>
+            </div>
+
+            <div id="panel-pkg" class="card" style="display: none;">
+                <label style="margin-bottom: 12px;">Pakeejii Torbanii fi Ji'aa Filadhu</label>
+                <div class="pkg-grid">
+                    <div class="pkg-card">
+                        <div class="pkg-info">
+                            <h3>Pakeejii Oro & Bokkuu</h3>
+                            <p>Gaaffilee salphaa fi giddu-galeessa daangaa malee</p>
+                        </div>
+                        <div class="pkg-price">
+                            <div class="pkg-cost">Torbanitti / 35 ETB</div>
+                            <button class="btn-buy" onclick="alert('Kaffaltii Telebirr/M-Pesa eegalchiisa')">Bitadhu</button>
+                        </div>
+                    </div>
+                    <div class="pkg-card">
+                        <div class="pkg-info">
+                            <h3>Pakeejii Gadaa (Cimaa)</h3>
+                            <p>Gaaffilee walxaxaa fi kooding hundaaf</p>
+                        </div>
+                        <div class="pkg-price">
+                            <div class="pkg-cost">Ji'atti / 120 ETB</div>
+                            <button class="btn-buy" onclick="alert('Kaffaltii Telebirr/M-Pesa eegalchiisa')">Bitadhu</button>
+                        </div>
+                    </div>
+                    <div class="pkg-card">
+                        <div class="pkg-info">
+                            <h3>Pakeejii Melbaa (Suuraa)</h3>
+                            <p>Suuraalee ammayyaa bifa hin jijjiirre uumuuf</p>
+                        </div>
+                        <div class="pkg-price">
+                            <div class="pkg-cost">Ji'atti / 150 ETB</div>
+                            <button class="btn-buy" onclick="alert('Kaffaltii Telebirr/M-Pesa eegalchiisa')">Bitadhu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <label>Deebii NATA AI Platform</label>
+                <div id="output-box" class="output-box">NATA AI qophaadha. Hojii kee asirratti siif fida.</div>
+            </div>
+
+            <div class="ad-banner">
+                📢 GOOGLE ADSENSE (GALII BEEKSIISAA OLIIN GUDDISUUF)
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 NATA AI Platform. Developed by Naziif Taajuu | Telebirr & M-Pesa Integrated</p>
+    </div>
+
     <script>
-        function processAI() {
+        // System Data Business Logic
+        let coins = 100; // 100 Coins for new users
+        let freeOroQueries = 5; // 5 Free queries daily for Oro
+
+        const modelDetails = {
+            oro: { desc: "Madda: Gemini Flash-Lite & Google AI.<br>⚙️ Saffisa ol'aanaa, Gaaffilee salphaa deebisa.<br>💰 Baasii: Coin 2 fudhata (Bilisa yoo qabaatte 0).", cost: 2, label: "Gaaffii Keessan Barreessaa:" },
+            bokkuu: { desc: "Madda: Gemini Lite, ChatGPT, Google Search & Websites.<br>📜 Xalayaa barreessu, Hiikkaa fi Content qopheessa.<br>💰 Baasii: Coin 5 kuta.", cost: 5, label: "Hojii barreeffamaa barbaaddan:" },
+            gadaa: { desc: "Madda: Gemini Pro, Claude AI & Google Search.<br>🦅 Gaaffii cimaa, Saayinsii fi Kooding walxaxaa qora.<br>💰 Baasii: Coin 12 fixaa.", cost: 12, label: "Gaaffii kee isa cimaa galchi:" },
+            melbaa: { desc: "Madda: Image Generation Engine.<br>🎨 Suura qulqullina qabu, bifa fi fuula osoo hin jijjiirin uuma.<br>💰 Baasii: Coin 20 fixaa.", cost: 20, label: "Suuraa akkamii uumuu barbaaddu? (Bifaa fi ija ibsi):" }
+        };
+
+        function switchTab(tabName) {
+            document.getElementById('tab-ai').classList.toggle('active', tabName === 'ai');
+            document.getElementById('tab-pkg').classList.toggle('active', tabName === 'pkg');
+            document.getElementById('panel-ai').style.display = tabName === 'ai' ? 'block' : 'none';
+            document.getElementById('panel-pkg').style.display = tabName === 'pkg' ? 'block' : 'none';
+        }
+
+        function updateModelInfo() {
+            const selected = document.getElementById('model-select').value;
+            document.getElementById('model-info').innerHTML = modelDetails[selected].desc;
+            document.getElementById('prompt-label').innerText = modelDetails[selected].label;
+        }
+
+        function executeNataPlatform() {
             const model = document.getElementById('model-select').value;
             const prompt = document.getElementById('user-prompt').value.trim();
             const output = document.getElementById('output-box');
-            
+
             if (!prompt) {
-                alert('Maaloo dura gaaffii keessan barreessaa!');
+                alert('Maaloo dura waan barbaaddan barreessaa!');
                 return;
             }
-            
-            output.innerHTML = '<span style="color: #00e676; font-weight: bold;">⚡ NATA AI yaadaa jira...</span>';
-            
+
+            let actualCost = modelDetails[model].cost;
+            let isFreeQuery = false;
+
+            // Oro free logic check
+            if (model === 'oro' && freeOroQueries > 0) {
+                actualCost = 0;
+                freeOroQueries--;
+                isFreeQuery = true;
+                document.getElementById('free-count').innerText = `🎁 Oro: ${freeOroQueries} Bilisa`;
+            }
+
+            // Check coin balance if not free query
+            if (!isFreeQuery && coins < actualCost) {
+                alert("🪙 Coin keessan ga'aa miti! Maaloo Pakeejii bitadha ykn Beeksisa daawwadha.");
+                return;
+            }
+
+            // Deduct Coins
+            coins -= actualCost;
+            document.getElementById('coin-count').innerText = `🪙 ${coins} Coins`;
+
+            output.innerHTML = '<span style="color: var(--secondary); font-weight: bold;">⚡ NATA AI galmee bilisaa barbaadaa jira...</span>';
+
             setTimeout(() => {
-                output.innerText = `[NATA AI - ${model}]:\n\nNaziif ko, weebsaayitiin NATA AI milkaa'inaan hojjechaa jira!\n\nGaaffiin kee: "${prompt}" jedhu sirriitti qaqqabeera.\n\nPrototype keenya kun koodii ARM64-v8a fi bilbila kee (4GB RAM) irratti akka salphaatti akka hojjetuuf saffisa ol'aanaan optimajeeffameera.`;
-            }, 1200);
+                let responseText = "";
+                if (model === 'oro') {
+                    responseText = `[NATA AI - ORO (Free Engine First Optimized)]:\n\nGaaffiin kee salphaan deebii argateera.\nMadda: Google AI / Gemini Flash-Lite.\n\nBaasii: ${isFreeQuery ? '0 (Daily Free Credit)' : '2 Coins'}.\n\nYaada kee: "${prompt}"`;
+                } else if (model === 'bokkuu') {
+                    responseText = `[NATA AI - BOKKUU]:\n\nQorannoon madda bilisaa duraa xumuramee ChatGPT/Gemini Lite irraa odeeffannoon dhufeera.\nHojii kee: "${prompt}" bifa qulqulluun dhiyaateera.\n\nBaasii: -5 Coins.`;
+                } else if (model === 'gadaa') {
+                    responseText = `[NATA AI - GADAA]:\n\n🧠 Moodeela Engine Cimaa (Gemini Pro/Claude AI) fayyadamuun xiinxalameera.\n\nBaasii Walxaxaa: -12 Coins.\nDeebii gadi fageenyaa kaayyoo keetiif oolu argatteetta.`;
+                } else if (model === 'melbaa') {
+                    responseText = `[NATA AI - MELBAA (Image Pro)]:\n\n🖼️ Engine Suuraa uumu kallaattiidhaan calaqqisee jira. Bifaa fi fuula kee eogee suuraa qulqulluu ijaara.\nPrompt: "${prompt}"\n\nBaasii: -20 Coins.`;
+                }
+                output.innerText = responseText;
+            }, 1800);
         }
     </script>
 </body>
