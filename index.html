@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATA AI Platform</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 40px auto; background: #1e1e1e; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h1 { color: #00e676; text-align: center; font-size: 26px; margin-bottom: 5px; }
+        label { display: block; margin: 15px 0 5px; color: #bbb; font-weight: bold; }
+        select, textarea, button { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #333; background: #2a2a2a; color: #fff; box-sizing: border-box; font-size: 16px; }
+        select:focus, textarea:focus { border-color: #00e676; outline: none; }
+        button { background-color: #00e676; color: #000; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        button:hover { background-color: #00c853; }
+        .response-box { background: #2d2d2d; padding: 15px; border-radius: 5px; border-left: 4px solid #00e676; min-height: 60px; white-space: pre-wrap; color: #e0e0e0; line-height: 1.5; }
+        .footer { text-align: center; margin-top: 30px; font-size: 13px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NATA AI Platform 🇪🇹</h1>
+        <p style="text-align:center; color:#aaa; font-size:14px; margin-top:0;">Multi-AI Service for Ethiopia</p>
+        
+        <label for="ai-model">Filadhu (Choose AI):</label>
+        <select id="ai-model">
+            <option value="Gemini AI (Google)">Gemini AI (Google)</option>
+            <option value="ChatGPT (OpenAI)">ChatGPT (OpenAI)</option>
+            <option value="Claude AI (Anthropic)">Claude AI (Anthropic)</option>
+        </select>
+
+        <label for="prompt">Gaaffii kee barreessi (Enter Prompt):</label>
+        <textarea id="prompt" rows="4" placeholder="Afaan Barbaaddun gaafadhu..."></textarea>
+
+        <button onclick="sendRequest()">Ergi (Send)</button>
+
+        <label>Deebii AI (Response):</label>
+        <div id="response" class="response-box">Akkam jirtu! NATA AI qophaadha. Gaaffii kee olitti barreessiitii Ergi cuqaasi.</div>
+        
+        <div class="footer">⚡ Powered by Naziif Taajuu | Telebirr & M-pesa Coming Soon</div>
+    </div>
+
+    <script>
+        function sendRequest() {
+            const model = document.getElementById('ai-model').value;
+            const prompt = document.getElementById('prompt').value;
+            const responseBox = document.getElementById('response');
+            
+            if(!prompt.trim()) { 
+                alert('Maaloo dura gaaffii kee barreessi!'); 
+                return; 
+            }
+            
+            responseBox.innerText = "⚡ NATA AI yaadaa jira...";
+            
+            // Simulation for instant prototype testing
+            setTimeout(() => {
+                responseBox.innerText = `[NATA AI - ${model}]:\n\nNaziif ko, mul'atni kee guddaadha! Gaaffiin kee: "${prompt}" jedhu nagaadhan qaqqabeera.\n\nWeebsaayitiin keenya kallaattiidhaan Cloud irra ka'eera. Kun hojii boonsaa jalqabaati!`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
