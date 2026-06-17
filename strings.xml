@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NATA AI</string>
+    <string name="coin_balance">🪙 %1$d Coins</string>
+    
+    <string name="new_chat">➕ New Chat</string>
+    <string name="watch_ad">📺 Ads (Get Free Coin)</string>
+    <string name="model_label">🤖 Model:</string>
+    <string name="history_title">📜 Question History</string>
+    <string name="hint_input">Type your query here...</string>
+    <string name="btn_send">Send</string>
+    
+    <string name="msg_loading">NATA AI is thinking...</string>
+    <string name="error_conn">Error: Connection lost with Server. Check Termux!</string>
+    <string name="error_no_coin">Insufficient coins! Please watch an ad.</string>
+    
+    <string name="telebirr_pay">💳 Buy via Telebirr</string>
+    <string name="mpesa_pay">📱 Buy via M-Pesa</string>
+</resources>
