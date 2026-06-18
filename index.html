@@ -1,81 +1,232 @@
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
-<script>
-  // 2️⃣ Firebase Configuration (Furtuu Keeti fi URL Kuusaa Dataa Keetii)
-  const firebaseConfig = {
-    apiKey: "AIzaSyBW-blZmYanrKeo4QNxI3We7QZUxwFOqhs",
-    authDomain: "nata-ai-50e91.firebaseapp.com",
-    databaseURL: "https://nata-ai-50e91-default-rtdb.firebaseio.com/",
-    projectId: "nata-ai-50e91",
-    storageBucket: "nata-ai-50e91.firebasestorage.app",
-    messagingSenderId: "236263948485",
-    appId: "1:236263948485:web:b395c62a9dcd499ec330ac",
-    measurementId: "G-TM1J5S0NXT"
-  };
-
-  // Firebase Initialize Gochuu
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const database = firebase.database();
-
-  let currentUserRef = null;
-  let userCoins = 0;
-
-  // 3️⃣ Sirna Login Icciitii (Anonymous Auth) fi Hordoffii Coin
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      // User yoo bame, kuusaa dataa isaa hordofi
-      currentUserRef = database.ref('users/' + user.uid);
-      currentUserRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          userCoins = data.coins;
-        } else {
-          // User haaraa yoo ta'e badhaasa 100 Coins kenniif
-          userCoins = 100;
-          currentUserRef.set({ coins: userCoins });
+<!DOCTYPE html>
+<html lang="om">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATA AI - Multi-Functional Platform</title>
+    <style>
+        body {
+            background-color: #0f141c;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
         }
-        // UI irratti lakkoofsa Coin agarsiisi
-        document.getElementById('response').innerHTML = `Akkam jirtu! NATA AI qophaa'eera. Lakkoofsa Coin keessan: 🪙 ${userCoins}`;
+        .container {
+            background-color: #1a2230;
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 1px solid #2d3748;
+        }
+        h1 {
+            color: #00e676;
+            text-align: center;
+            margin-top: 0;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        select, textarea {
+            width: 100%;
+            background-color: #0f141c;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            padding: 14px;
+            font-size: 15px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        select:focus, textarea:focus {
+            border-color: #00e676;
+        }
+        textarea {
+            height: 110px;
+            resize: none;
+        }
+        button {
+            width: 100%;
+            background-color: #00e676;
+            color: #0f141c;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 22px;
+        }
+        button:active {
+            background-color: #00b359;
+        }
+        .response-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .response-box {
+            background-color: #0f141c;
+            border-left: 4px solid #00e676;
+            border-radius: 0 8px 8px 0;
+            padding: 14px;
+            font-size: 15px;
+            min-height: 70px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 25px;
+            line-height: 1.6;
+            border-top: 1px solid #2d3748;
+            padding-top: 15px;
+        }
+        .coming-soon {
+            color: #00e676;
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>NATA AI</h1>
+        <div class="subtitle">Multi-Functional AI Platform</div>
+        
+        <label for="ai-model">FILADHU (CHOOSE MODEL)</label>
+        <select id="ai-model">
+            <option value="Gemini Pro (Google)">Gemini Pro (Google)</option>
+            <option value="Gemini Flash-Lite (ORO)">Gemini Flash-Lite (ORO)</option>
+            <option value="ChatGPT-4o (BOKKUU)">ChatGPT-4o (BOKKUU)</option>
+            <option value="Claude 3.5 Sonnet (GADAA)">Claude 3.5 Sonnet (GADAA)</option>
+        </select>
+        
+        <label for="prompt">GAAFFII KEESSAN (YOUR PROMPT)</label>
+        <textarea id="prompt" placeholder="Gaaffii keessan asitti barreessaa..."></textarea>
+        
+        <button onclick="sendRequest()">Ergi / Send</button>
+        
+        <div class="response-title">DEEBII AI (RESPONSE)</div>
+        <div id="response" class="response-box">
+            Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...
+        </div>
+        
+        <footer>
+            © 2026 NATA AI. All Rights Reserved.<br>
+            Developed by Naziif Taajuu
+            <span class="coming-soon">Telebirr & M-Pesa Integration Coming Soon</span>
+        </footer>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <script>
+      // 2️⃣ Firebase Configuration & Realtime Database Setup
+      const firebaseConfig = {
+        apiKey: "AIzaSyBW-blZmYanrKeo4QNxI3We7QZUxwFOqhs",
+        authDomain: "nata-ai-50e91.firebaseapp.com",
+        databaseURL: "https://nata-ai-50e91-default-rtdb.firebaseio.com/",
+        projectId: "nata-ai-50e91",
+        storageBucket: "nata-ai-50e91.firebasestorage.app",
+        messagingSenderId: "236263948485",
+        appId: "1:236263948485:web:b395c62a9dcd499ec330ac",
+        measurementId: "G-TM1J5S0NXT"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const database = firebase.database();
+
+      let currentUserRef = null;
+      let userCoins = 0;
+
+      // 3️⃣ Secret User Session (Anonymous) & Realtime Coin Observer
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          currentUserRef = database.ref('users/' + user.uid);
+          currentUserRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+              userCoins = data.coins;
+            } else {
+              // New user reward: 100 Free Coins!
+              userCoins = 100;
+              currentUserRef.set({ coins: userCoins });
+            }
+            // Update UI with real-time balance
+            document.getElementById('response').innerHTML = `Akkam jirtu! NATA AI qophaa'eera. Lakkoofsa Coin keessan: 🪙 ${userCoins}`;
+          });
+        } else {
+          // Sign in automatically behind the scenes
+          auth.signInAnonymously().catch((error) => {
+            console.error("Firebase auth error: ", error.message);
+          });
+        }
       });
-    } else {
-      // Osoo Login hin godhin yoo seene kallaattiidhaan galmeessi
-      auth.signInAnonymously().catch((error) => {
-        console.error("Gantiin uumameera: ", error.message);
-      });
-    }
-  });
 
-  // 4️⃣ Gaaffii AI Erguu fi Coin Hir'isuu
-  function sendRequest() {
-    const model = document.getElementById('ai-model').value;
-    const prompt = document.getElementById('prompt').value;
-    const responseBox = document.getElementById('response');
+      // 4️⃣ Live Coin Deductor & Mock AI Request Handler
+      function sendRequest() {
+        const model = document.getElementById('ai-model').value;
+        const prompt = document.getElementById('prompt').value;
+        const responseBox = document.getElementById('response');
 
-    if (!prompt.trim()) {
-      responseBox.innerHTML = "Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...";
-      return;
-    }
+        if (!prompt.trim()) {
+          responseBox.innerHTML = "Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...";
+          return;
+        }
 
-    if (userCoins <= 0) {
-      responseBox.innerHTML = "⚠️ Lakkoofsa Coin keessan dhumateera! Maaloo Telebirr/M-Pesa fayyadamuun guuttadhadha.";
-      return;
-    }
+        if (userCoins <= 0) {
+          responseBox.innerHTML = "⚠️ Lakkoofsa Coin keessan dhumateera! Maaloo Telebirr/M-Pesa fayyadamuun guuttadhadha.";
+          return;
+        }
 
-    responseBox.innerHTML = "🔄 NATA AI yaadaa jira... (Backend Dubbisaa Jira)";
+        responseBox.innerHTML = "🔄 NATA AI yaadaa jira... (Backend Dubbisaa Jira)";
 
-    // Ammaaf backend koodii uumun dura Coin 1 hir'isnee haa laallu
-    userCoins -= 1;
-    currentUserRef.update({ coins: userCoins }).then(() => {
-      // Iddoo kanatti kutaalee AI (Gemini/ChatGPT/Claude) backend itti aanuun hidhna
-      setTimeout(() => {
-        responseBox.innerHTML = `🤖 [${model}]: Kun deebii yaalii kuusaa dataati. Prompt kee: "${prompt}". Coin hafe: 🪙 ${userCoins}`;
-      }, 1500);
-    }).catch((error) => {
-      responseBox.innerHTML = "Gantiin kuusaa dataa uumameera: " + error.message;
-    });
-  }
-</script>
-
+        // Deduct 1 coin from the cloud database
+        userCoins -= 1;
+        currentUserRef.update({ coins: userCoins }).then(() => {
+          setTimeout(() => {
+            responseBox.innerHTML = `🤖 [${model}]: Kun deebii yaalii kuusaa dataati. Prompt kee: "${prompt}". Coin hafe: 🪙 ${userCoins}`;
+          }, 1500);
+        }).catch((error) => {
+          responseBox.innerHTML = "Gantiin kuusaa dataa uumameera: " + error.message;
+        });
+      }
+    </script>
+</body>
+          </html>
+          
