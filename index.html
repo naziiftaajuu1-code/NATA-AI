@@ -3,158 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NATA AI - Multi-Functional Platform</title>
+    <title>NATA AI - Dashboard & Payments</title>
     <style>
+        :root {
+            --bg-main: #0b0f17;
+            --bg-card: #161f30;
+            --primary: #00e676;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --telebirr: #0066cc;
+            --mpesa: #ff0000;
+        }
         body {
-            background-color: #0f141c;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 15px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        .container {
-            background-color: #1a2230;
-            border-radius: 16px;
-            padding: 24px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            border: 1px solid #2d3748;
+        .navbar {
+            background-color: var(--bg-card);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #233149;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        h1 {
-            color: #00e676;
-            text-align: center;
-            margin-top: 0;
-            font-size: 32px;
-            font-weight: bold;
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
             letter-spacing: 1px;
-            margin-bottom: 5px;
         }
-        .subtitle {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-        label {
-            display: block;
-            font-size: 12px;
+        .coin-badge {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid #f59e0b;
+            padding: 8px 14px;
+            border-radius: 20px;
             font-weight: bold;
-            color: #94a3b8;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 14px;
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        select, textarea {
+        .dashboard {
+            flex: 1;
+            padding: 20px;
+            max-width: 480px;
+            margin: 0 auto;
             width: 100%;
-            background-color: #0f141c;
+            box-sizing: border-box;
+        }
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #233149;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        select, textarea, input {
+            width: 100%;
+            background-color: #0b0f17;
             border: 1px solid #334155;
-            border-radius: 8px;
+            border-radius: 10px;
             color: white;
             padding: 14px;
             font-size: 15px;
             box-sizing: border-box;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             outline: none;
         }
-        select:focus, textarea:focus {
-            border-color: #00e676;
+        select:focus, textarea:focus, input:focus {
+            border-color: var(--primary);
         }
         textarea {
-            height: 110px;
+            height: 100px;
             resize: none;
         }
-        button {
+        .btn-send {
             width: 100%;
-            background-color: #00e676;
-            color: #0f141c;
+            background: linear-gradient(135deg, #00e676, #00b359);
+            color: #0b0f17;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 15px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-bottom: 22px;
-        }
-        button:active {
-            background-color: #00b359;
-        }
-        .response-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #94a3b8;
-            margin-bottom: 8px;
-            text-transform: uppercase;
         }
         .response-box {
-            background-color: #0f141c;
-            border-left: 4px solid #00e676;
-            border-radius: 0 8px 8px 0;
-            padding: 14px;
-            font-size: 15px;
-            min-height: 70px;
+            background-color: #0b0f17;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 10px 10px 0;
+            padding: 15px;
+            font-size: 14px;
+            min-height: 40px;
             color: #e2e8f0;
-            line-height: 1.6;
+        }
+        .packages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .pack-card {
+            background-color: var(--bg-card);
+            border: 1px solid #233149;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .pack-card:active {
+            transform: scale(0.95);
+        }
+        .pack-title { font-size: 14px; font-weight: 700; margin-bottom: 5px;}
+        .pack-coins { color: #fbbf24; font-size: 18px; font-weight: 800; margin-bottom: 10px;}
+        .pack-price { background-color: #0b0f17; padding: 6px; border-radius: 6px; font-size: 13px; color: var(--primary); font-weight: bold;}
+
+        /* Payment Modal (Popup Box) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid #233149;
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .payment-method {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .method-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #233149;
+            background: #0b0f17;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+        .method-btn.active.tele { border-color: var(--accent); background-color: rgba(56, 189, 248, 0.1); }
+        .method-btn.active.mpesa { border-color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); }
+        .number-box {
+            background-color: #0b0f17;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 15px;
+            border: 1px dashed #334155;
+        }
+        .close-btn {
+            background: none; border: none; color: var(--text-muted); float: right; font-size: 20px; cursor: pointer;
         }
         footer {
-            text-align: center;
-            font-size: 12px;
-            color: #64748b;
-            margin-top: 25px;
-            line-height: 1.6;
-            border-top: 1px solid #2d3748;
-            padding-top: 15px;
-        }
-        .coming-soon {
-            color: #00e676;
-            font-weight: bold;
-            display: block;
-            margin-top: 5px;
+            text-align: center; font-size: 11px; color: var(--text-muted); padding: 20px; border-top: 1px solid #233149; background-color: var(--bg-card);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>NATA AI</h1>
-        <div class="subtitle">Multi-Functional AI Platform</div>
-        
-        <label for="ai-model">FILADHU (CHOOSE MODEL)</label>
-        <select id="ai-model">
-            <option value="Gemini Pro (Google)">Gemini Pro (Google)</option>
-            <option value="Gemini Flash-Lite (ORO)">Gemini Flash-Lite (ORO)</option>
-            <option value="ChatGPT-4o (BOKKUU)">ChatGPT-4o (BOKKUU)</option>
-            <option value="Claude 3.5 Sonnet (GADAA)">Claude 3.5 Sonnet (GADAA)</option>
-        </select>
-        
-        <label for="prompt">GAAFFII KEESSAN (YOUR PROMPT)</label>
-        <textarea id="prompt" placeholder="Gaaffii keessan asitti barreessaa..."></textarea>
-        
-        <button onclick="sendRequest()">Ergi / Send</button>
-        
-        <div class="response-title">DEEBII AI (RESPONSE)</div>
-        <div id="response" class="response-box">
-            Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...
-        </div>
-        
-        <footer>
-            © 2026 NATA AI. All Rights Reserved.<br>
-            Developed by Naziif Taajuu
-            <span class="coming-soon">Telebirr & M-Pesa Integration Coming Soon</span>
-        </footer>
+    <div class="navbar">
+        <div class="logo">NATA AI</div>
+        <div class="coin-badge">🪙 <span id="coin-count">...</span></div>
     </div>
 
+    <div class="dashboard">
+        <div class="section-title">AI Workspace</div>
+        <div class="card">
+            <select id="ai-model">
+                <option value="Gemini Pro (Google)">Gemini Pro (Google)</option>
+                <option value="Gemini Flash-Lite (ORO)">Gemini Flash-Lite (ORO)</option>
+                <option value="ChatGPT-4o (BOKKUU)">ChatGPT-4o (BOKKUU)</option>
+                <option value="Claude 3.5 Sonnet (GADAA)">Claude 3.5 Sonnet (GADAA)</option>
+            </select>
+            <textarea id="prompt" placeholder="Gaaffii keessan asitti barreessaa..."></textarea>
+            <button class="btn-send" onclick="sendRequest()">Ergi / Ask AI</button>
+        </div>
+
+        <div class="section-title">Response</div>
+        <div class="card" style="padding: 10px;"><div id="response" class="response-box">Loading...</div></div>
+
+        <div class="section-title">Coin Shop (Pakeejii Bitadhaa)</div>
+        <div class="packages-grid">
+            <div class="pack-card" onclick="openPayment('Starter', '25 ETB', 150)">
+                <div class="pack-title">Starter</div>
+                <div class="pack-coins">🪙 150</div>
+                <div class="pack-price">25 ETB</div>
+            </div>
+            <div class="pack-card" onclick="openPayment('Standard', '50 ETB', 400)">
+                <div class="pack-title">Standard</div>
+                <div class="pack-coins">🪙 400</div>
+                <div class="pack-price">50 ETB</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Sheets (Modal Popup) -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closePayment()">×</button>
+            <h3 style="margin-top:0; color:var(--primary);" id="modal-title">Kaffaltii Raawwadhaa</h3>
+            <p style="font-size:13px; color:var(--text-muted);">Maaloo kallaattiidhaan kaffaltii raawwattanii ragaa isaa asitti galchaa.</p>
+            
+            <div class="payment-method">
+                <div id="tele-btn" class="method-btn active tele" onclick="selectMethod('telebirr')">Telebirr</div>
+                <div id="mpesa-btn" class="method-btn mpesa" onclick="selectMethod('mpesa')">M-Pesa</div>
+            </div>
+
+            <div class="number-box">
+                Gara: <span id="payment-number">0917164052</span>
+            </div>
+
+            <input type="text" id="user-phone" placeholder="Lakkoofsa Bilbila Keessan">
+            <input type="text" id="txn-id" placeholder="Transaction ID (Fkn: AA879899XX)">
+            
+            <button class="btn-send" onclick="submitPaymentRequest()">Kaffaltii Mirkaneessi</button>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 NATA AI Platform. Engineered by Naziif Taajuu
+    </footer>
+
+    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-      // 2️⃣ Firebase Configuration & Realtime Database Setup
       const firebaseConfig = {
         apiKey: "AIzaSyBW-blZmYanrKeo4QNxI3We7QZUxwFOqhs",
         authDomain: "nata-ai-50e91.firebaseapp.com",
@@ -166,67 +279,104 @@
         measurementId: "G-TM1J5S0NXT"
       };
 
-      // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
       const database = firebase.database();
 
       let currentUserRef = null;
       let userCoins = 0;
+      let selectedPack = {};
+      let currentMethod = 'telebirr';
 
-      // 3️⃣ Secret User Session (Anonymous) & Realtime Coin Observer
       auth.onAuthStateChanged((user) => {
         if (user) {
           currentUserRef = database.ref('users/' + user.uid);
           currentUserRef.on('value', (snapshot) => {
             const data = snapshot.val();
-            if (data) {
-              userCoins = data.coins;
-            } else {
-              // New user reward: 100 Free Coins!
-              userCoins = 100;
-              currentUserRef.set({ coins: userCoins });
-            }
-            // Update UI with real-time balance
-            document.getElementById('response').innerHTML = `Akkam jirtu! NATA AI qophaa'eera. Lakkoofsa Coin keessan: 🪙 ${userCoins}`;
+            if (data) { userCoins = data.coins; } 
+            else { userCoins = 100; currentUserRef.set({ coins: userCoins }); }
+            document.getElementById('coin-count').innerText = userCoins;
+            document.getElementById('response').innerText = "NATA AI Dashboard qopha'eera. Gaaffii keessan galchaa.";
           });
         } else {
-          // Sign in automatically behind the scenes
-          auth.signInAnonymously().catch((error) => {
-            console.error("Firebase auth error: ", error.message);
-          });
+          auth.signInAnonymously();
         }
       });
 
-      // 4️⃣ Live Coin Deductor & Mock AI Request Handler
+      function openPayment(name, price, coins) {
+        selectedPack = { name, price, coins };
+        document.getElementById('modal-title').innerText = `${name} (${price})`;
+        document.getElementById('payment-modal').style.display = 'flex';
+        selectMethod('telebirr'); 
+      }
+
+      function closePayment() {
+        document.getElementById('payment-modal').style.display = 'none';
+      }
+
+      function selectMethod(method) {
+        currentMethod = method;
+        const teleBtn = document.getElementById('tele-btn');
+        const mpesaBtn = document.getElementById('mpesa-btn');
+        const numBox = document.getElementById('payment-number');
+
+        if (method === 'telebirr') {
+            teleBtn.className = 'method-btn active tele';
+            mpesaBtn.className = 'method-btn';
+            numBox.innerText = '0917164052';
+        } else {
+            mpesaBtn.className = 'method-btn active mpesa';
+            teleBtn.className = 'method-btn';
+            numBox.innerText = '0715323741';
+        }
+      }
+
+      function submitPaymentRequest() {
+        const phone = document.getElementById('user-phone').value.trim();
+        const txnId = document.getElementById('txn-id').value.trim();
+
+        if (!phone || !txnId) {
+            alert("Maaloo guutummaatti unka kaffaltii guutaa!");
+            return;
+        }
+
+        const requestRef = database.ref('payment_requests').push();
+        requestRef.set({
+            userId: auth.currentUser.uid,
+            packageName: selectedPack.name,
+            price: selectedPack.price,
+            coinsRequested: selectedPack.coins,
+            method: currentMethod,
+            userPhone: phone,
+            transactionId: txnId,
+            status: "pending",
+            timestamp: Date.now()
+        }).then(() => {
+            alert("Kaffaltii keessan ergitanii jirtu! Erga mirkanoofte booda Coin keessan ni dabalama.");
+            closePayment();
+            document.getElementById('user-phone').value = '';
+            document.getElementById('txn-id').value = '';
+        }).catch((err) => {
+            alert("Gantiin uumameera: " + err.message);
+        });
+      }
+
       function sendRequest() {
         const model = document.getElementById('ai-model').value;
         const prompt = document.getElementById('prompt').value;
         const responseBox = document.getElementById('response');
 
-        if (!prompt.trim()) {
-          responseBox.innerHTML = "Maaloo dura gaaffii keessan saanduqa gubbaa irratti barreessaa...";
-          return;
-        }
+        if (!prompt.trim()) { responseBox.innerHTML = "⚠️ Maaloo dura gaaffii keessan barreessaa..."; return; }
+        if (userCoins <= 0) { responseBox.innerHTML = "⚠️ Coin keessan dhumateera! Maaloo Pakeejii bitadhaa."; return; }
 
-        if (userCoins <= 0) {
-          responseBox.innerHTML = "⚠️ Lakkoofsa Coin keessan dhumateera! Maaloo Telebirr/M-Pesa fayyadamuun guuttadhadha.";
-          return;
-        }
-
-        responseBox.innerHTML = "🔄 NATA AI yaadaa jira... (Backend Dubbisaa Jira)";
-
-        // Deduct 1 coin from the cloud database
+        responseBox.innerHTML = "🔄 NATA AI yaadaa jira...";
         userCoins -= 1;
         currentUserRef.update({ coins: userCoins }).then(() => {
           setTimeout(() => {
-            responseBox.innerHTML = `🤖 [${model}]: Kun deebii yaalii kuusaa dataati. Prompt kee: "${prompt}". Coin hafe: 🪙 ${userCoins}`;
-          }, 1500);
-        }).catch((error) => {
-          responseBox.innerHTML = "Gantiin kuusaa dataa uumameera: " + error.message;
+            responseBox.innerHTML = `🤖 [${model}]: Kun deebii yaalii kaffaltiiti. Prompt kee: "${prompt}". Coin hafe: 🪙 ${userCoins}`;
+          }, 1200);
         });
       }
     </script>
 </body>
-          </html>
-          
+</html>
