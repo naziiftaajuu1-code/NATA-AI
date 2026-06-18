@@ -3,30 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NATA AI - NextGen Premium Platform</title>
-    <!-- Firebase SDKs Integration -->
+    <title>NATA AI - Ultimate Freemium Platform</title>
+    
+    <!-- Premium Firebase Integration & Font Systems -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-glow: #030712;
-            --card-glass: rgba(17, 24, 39, 0.7);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --bg-master: #040711;
+            --glass-surface: rgba(11, 18, 33, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.07);
             --neon-green: #10b981;
-            --neon-glow: rgba(16, 185, 129, 0.2);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --gold-glow: #fbbf24;
-            --telebirr: #0284c7;
-            --mpesa: #ef4444;
+            --neon-glow: rgba(16, 185, 129, 0.25);
+            --text-pure: #ffffff;
+            --text-dim: #94a3b8;
+            --gold: #f59e0b;
+            
+            /* Pricing Tiers Identity Colors */
+            --oro-clr: #3b82f6;
+            --gadaa-clr: #10b981;
+            --melbaa-clr: #f59e0b;
+            --bokku-clr: #ec4899;
         }
 
         body {
-            background-color: var(--bg-glow);
-            color: var(--text-main);
-            font-family: 'SF Pro Display', -apple-system, Roboto, sans-serif;
+            background-color: var(--bg-master);
+            color: var(--text-pure);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -35,551 +41,1208 @@
             overflow-x: hidden;
         }
 
-        .app-container {
+        .app-frame {
             width: 100%;
             max-width: 450px;
-            background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.05), transparent), #090d16;
+            background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 50%), 
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.03), transparent 40%), #070b14;
             display: flex;
             flex-direction: column;
-            padding-bottom: 180px;
-            box-sizing: border-box;
             min-height: 100vh;
+            padding-bottom: 150px;
+            box-sizing: border-box;
             position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
         }
 
-        /* Top Header Navigation */
-        .header-bar {
+        /* Fixed Top Navigation Bar */
+        .premium-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 24px;
+            padding: 18px 22px;
             position: sticky;
             top: 0;
-            background: rgba(9, 13, 22, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--card-border);
-            z-index: 100;
+            background: rgba(7, 11, 20, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
         }
-        
-        .logo-title {
-            font-size: 22px;
+
+        .nav-brand {
+            font-size: 24px;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: -0.5px;
             background: linear-gradient(to right, #ffffff, var(--neon-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .logo-sub {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .sys-badge {
+            font-size: 10px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-weight: 700;
+            border: 1px solid rgba(16, 185, 129, 0.25);
         }
 
-        /* Widgets Card Grid */
-        .widget-row {
+        /* Coins & Packages Info Row */
+        .dashboard-widgets {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin: 15px 20px;
+            padding: 16px 20px;
         }
 
-        .widget-col {
-            background: var(--card-glass);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
+        .crypto-widget {
+            background: var(--glass-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             padding: 14px;
             display: flex;
             align-items: center;
             gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(8px);
-        }
-
-        .widget-col:active {
-            transform: scale(0.96);
-            border-color: var(--neon-green);
-        }
-
-        .widget-label {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .widget-value {
-            font-size: 16px;
-            font-weight: 800;
-        }
-
-        /* Modernized Promo Banner */
-        .promo-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(9, 13, 22, 0.9));
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: 20px;
-            margin: 10px 20px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .view-plans-btn {
-            background: linear-gradient(to right, var(--neon-green), #34d399);
-            color: #042f1a;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 14px var(--neon-glow);
-            width: 100%;
-            margin-top: 12px;
-        }
-
-        /* AI Chat Area Elements */
-        .welcome-section {
-            text-align: center;
-            margin: 30px 20px;
-        }
-
-        .welcome-title span {
-            color: var(--neon-green);
-            text-shadow: 0 0 15px var(--neon-glow);
-        }
-
-        .prompts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 10px 20px;
-        }
-
-        .prompt-card {
-            background: var(--card-glass);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            font-size: 13px;
+            backdrop-filter: blur(10px);
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .prompt-card:active {
-            background: rgba(16, 185, 129, 0.05);
-            border-color: var(--neon-green);
+        .crypto-widget:active { transform: scale(0.96); }
+
+        /* Integrated Website Scanner Element UI */
+        .scanner-card {
+            background: linear-gradient(135deg, rgba(11, 18, 33, 0.9), rgba(4, 7, 17, 0.95));
+            border: 1px solid var(--glass-border);
+            margin: 10px 20px;
+            padding: 18px;
+            border-radius: 22px;
         }
 
-        /* Chat Output Message Bubble */
-        .response-overlay {
-            margin: 15px 20px;
-            padding: 18px;
-            background: #0f172a;
-            border: 1px solid var(--card-border);
+        .scanner-capsule {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 4px;
+            margin-top: 12px;
+        }
+
+        .scanner-capsule input {
+            flex: 1; background: none; border: none; color: white; padding: 12px; font-size: 13px; outline: none;
+        }
+
+        .scan-trigger-btn {
+            background: var(--neon-green); color: #022c1b; border: none; padding: 0 16px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; transition: opacity 0.2s;
+        }
+
+        /* Adsterra/Google Ads Slot Wrapper */
+        .ad-network-slot {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.06);
+            margin: 12px 20px;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Response View Layout */
+        .chat-output-area {
+            padding: 10px 20px;
+        }
+
+        .response-container {
+            background: rgba(11, 18, 33, 0.5);
+            border: 1px solid var(--glass-border);
             border-left: 4px solid var(--neon-green);
-            border-radius: 4px 18px 18px 18px;
+            border-radius: 4px 22px 22px 22px;
+            padding: 18px;
             font-size: 14px;
             line-height: 1.6;
             display: none;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
-        /* Sticky Input Dock */
-        .bottom-dock {
+        /* Navigation & Input Core Control Dock */
+        .control-dock {
             position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 450px;
-            background: linear-gradient(to top, #090d16 85%, transparent);
+            bottom: 0; width: 100%; max-width: 450px;
+            background: linear-gradient(to top, #040711 82%, transparent);
             padding: 10px 20px 24px 20px;
             box-sizing: border-box;
-            z-index: 99;
+            z-index: 999;
         }
 
-        .input-capsule {
-            flex: 1;
-            background: rgba(17, 24, 39, 0.9);
-            border: 1px solid var(--card-border);
-            border-radius: 30px;
+        .pill-input-group {
+            background: rgba(18, 27, 46, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 35px;
             display: flex;
             align-items: center;
-            padding: 2px 18px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .input-capsule input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: white;
-            padding: 14px 0;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .send-btn-circle {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--neon-green), #059669);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px var(--neon-glow);
-            border: none;
-        }
-
-        .nav-dock {
-            background: rgba(17, 24, 39, 0.85);
-            border: 1px solid var(--card-border);
-            border-radius: 30px;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
+            padding: 4px 6px 4px 22px;
             backdrop-filter: blur(20px);
-            margin-top: 15px;
         }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 11px;
-            color: var(--text-muted);
-            cursor: pointer;
+        .pill-input-group input {
+            flex: 1; background: none; border: none; color: white; padding: 14px 0; font-size: 14px; outline: none;
         }
 
-        .nav-item.active { color: var(--neon-green); }
-
-        /* Premium Glass Modal Payment */
-        .pay-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 7, 18, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            backdrop-filter: blur(8px);
+        .send-pill-btn {
+            width: 46px; height: 46px; background: linear-gradient(135deg, var(--neon-green), #047857); border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px var(--neon-glow);
         }
 
-        .pay-box {
-            background: #111827;
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 24px;
-            width: 100%;
-            max-width: 380px;
-            box-sizing: border-box;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        /* Freemium Tier Plan Modal Sheet CSS */
+        .tier-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 3, 7, 0.94); z-index: 2000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(12px);
         }
 
-        .pay-tabs { display: flex; gap: 10px; margin: 18px 0; }
-        
-        .pay-tab {
-            flex: 1; padding: 14px; border-radius: 14px; border: 1px solid var(--card-border);
-            background: #1f2937; color: white; font-weight: 700; text-align: center; cursor: pointer;
+        .tier-panel-box {
+            background: #0b1221; border: 1px solid var(--glass-border); border-radius: 28px; padding: 22px; width: 100%; max-width: 400px; box-sizing: border-box;
         }
 
-        .pay-tab.active.tele { border-color: var(--telebirr); background: rgba(2, 132, 199, 0.15); color: #38bdf8; }
-        .pay-tab.active.mpesa { border-color: var(--mpesa); background: rgba(239, 68, 68, 0.15); color: #f87171; }
-        
-        .pay-num-display {
-            background: #030712; padding: 16px; border-radius: 14px; text-align: center;
-            font-size: 20px; font-weight: 900; color: var(--gold-glow); margin-bottom: 18px; border: 1px dashed rgba(251, 191, 36, 0.3);
+        .matrix-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0;
         }
 
-        .pay-box input {
-            width: 100%; padding: 14px; background: #030712; border: 1px solid var(--card-border);
-            color: white; border-radius: 12px; margin-bottom: 12px; box-sizing: border-box; outline: none;
+        .matrix-item {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; cursor: pointer; transition: all 0.2s ease;
         }
 
-        .submit-pay {
-            width: 100%; padding: 16px; background: var(--neon-green); color: #042f1a;
-            font-weight: 800; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px var(--neon-glow);
-        }
+        .matrix-item.selected { background: rgba(16, 185, 129, 0.08); }
     </style>
 </head>
 <body>
-    <div class="app-container">
+    <div class="app-frame">
         
-        <!-- 1. Premium Transparent Header -->
-        <div class="header-bar">
-            <div class="logo-row">
-                <span class="logo-title">NATA AI</span>
-                <div class="logo-sub">Premium System</div>
+        <!-- 1. Ultra-Premium Top Navigation Header -->
+        <div class="premium-nav">
+            <div>
+                <span class="nav-brand">NATA AI</span>
+                <div style="font-size: 10px; color: var(--text-dim); font-weight: 600; margin-top:-2px;">NextGen Intelligence</div>
             </div>
-            <div class="nav-icon" style="color: var(--neon-green)">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
+            <div class="sys-badge" id="user-tier-badge">👑 Free Member</div>
         </div>
 
-        <!-- 2. Glassmorphic Coin & Upgrade Widgets -->
-        <div class="widget-row">
-            <div class="widget-col" onclick="openPaymentSheet('Coin Pack', 'Shop')">
-                <span style="font-size: 20px; filter: drop-shadow(0 0 8px var(--gold-glow));">🪙</span>
+        <!-- 2. Interactive Premium Dashboard Widgets -->
+        <div class="dashboard-widgets">
+            <div class="crypto-widget" onclick="openPricingModal()">
+                <span style="font-size: 22px; filter: drop-shadow(0 0 8px var(--gold));">🪙</span>
                 <div>
-                    <div class="widget-label">My Coins</div>
-                    <div class="widget-value" id="coin-txt" style="color: var(--gold-glow);">...</div>
+                    <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">My Balance</div>
+                    <div style="font-size: 15px; font-weight: 900; color: var(--gold);" id="coin-txt">... Coins</div>
                 </div>
             </div>
-            <div class="widget-col" onclick="openPaymentSheet('Gadaa Premium', '50 ETB')">
-                <span style="font-size: 20px; filter: drop-shadow(0 0 8px var(--neon-green));">💎</span>
+            <div class="crypto-widget" onclick="openPricingModal()" style="border-color: rgba(16, 185, 129, 0.2);">
+                <span style="font-size: 22px; filter: drop-shadow(0 0 8px var(--neon-green));">🚀</span>
                 <div>
-                    <div class="widget-label">Membership</div>
-                    <div class="widget-value" style="color: var(--neon-green);">Upgrade</div>
+                    <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">Active Plan</div>
+                    <div style="font-size: 15px; font-weight: 900; color: var(--neon-green);" id="active-plan-txt">FREE TIER</div>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Neon Glow Promo Banner -->
-        <div class="promo-banner">
-            <div style="display: flex; align-items: flex-start; gap: 12px;">
-                <span style="font-size: 24px;">🚀</span>
-                <div>
-                    <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #fff;">Aangoo AI Guutuu Saphisi!</h3>
-                    <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.4;">Sadarkaa premium irratti hiikkaa gadi fageenyaa, suuraa ijaaruu fi barreeffama dabalataa argadhu.</p>
-                </div>
-            </div>
-            <button class="view-plans-btn" onclick="openPaymentSheet('Premium Plan', '50 ETB')">Saphisi & Jalqabi</button>
+        <!-- 3. Monetization System: Top Adsterra/AdSense Slot Banner -->
+        <div class="ad-network-slot" id="top-ad-banner">
+            <span style="color:var(--neon-green)">📢 ADVERTISEMENT</span>
+            <div style="font-size:12px; font-weight:700; color:white; margin-top:4px; text-transform:none;">Beeksisa keessan asirratti argadha!</div>
         </div>
 
-        <!-- 4. Main Welcome Display -->
-        <div class="welcome-section">
-            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 6px;">Baga Gara <span>NATA AI</span> Deebitee</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Gaaffii kee kamiyyuu asitti barreessi, dandeettii sammuu namtolchee addunyaa kanaan deebii argadhu.</p>
-        </div>
-
-        <!-- 5. Interactive Suggestions Grid -->
-        <div class="prompts-grid">
-            <div class="prompt-card" onclick="useQuickPrompt('Barreeffama weebsaayitiif ta\'u uumi...')">
-                <b style="color: var(--neon-green); display:block; margin-bottom:4px;">✍️ Content Writer</b>
-                <span style="color: var(--text-muted); font-size:11px;">Barreeffama mimmidhagaa ijaari.</span>
-            </div>
-            <div class="prompt-card" onclick="useQuickPrompt('Suuraa qulqullina qabu uumi...')">
-                <b style="color: #60a5fa; display:block; margin-bottom:4px;">🎨 Image Creator</b>
-                <span style="color: var(--text-muted); font-size:11px;">Yaada kee gara suuraatti jijjiri.</span>
-            </div>
-            <div class="prompt-card" onclick="useQuickPrompt('Koodii koo kanaan naaf sirreessi...')">
-                <b style="color: #f472b6; display:block; margin-bottom:4px;">💻 Code Assistant</b>
-                <span style="color: var(--text-muted); font-size:11px;">Rakkina koodii daddaffiin furi.</span>
-            </div>
-            <div class="prompt-card" onclick="useQuickPrompt('Afaan Oromoo gara Englishitti...')">
-                <b style="color: var(--gold-glow); display:block; margin-bottom:4px;">🌐 Translator</b>
-                <span style="color: var(--text-muted); font-size:11px;">Afaan addaddaa daddaffiin hiiki.</span>
-            </div>
-        </div>
-
-        <!-- Dynamic Live Response Output Box -->
-        <div id="dynamic-response" class="response-overlay"></div>
-
-        <!-- 6. Bottom Sticky Interaction System -->
-        <div class="bottom-dock">
+        <!-- 4. Advanced Website Security & SEO Scanner Module -->
+        <div class="scanner-card">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="input-capsule">
-                    <input type="text" id="user-input-box" placeholder="NATA AI gaafadhu...">
+                <span style="font-size: 22px;">🔍</span>
+                <div>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 800;">Premium Website Scanner</h4>
+                    <p style="margin: 2px 0 0 0; font-size: 11px; color: var(--text-dim);">URL galchuun nageenya fi SEO weebsaaytii scan godhaa.</p>
                 </div>
-                <button class="send-btn-circle" onclick="submitAIPrompt()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#042f1a" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </div>
+            <div class="scanner-capsule">
+                <input type="url" id="scanner-url-input" placeholder="https://example.com">
+                <button class="scan-trigger-btn" onclick="executeWebsiteScan()">Scan Now</button>
+            </div>
+        </div>
+
+        <!-- 5. Main AI Conversational Welcome Branding -->
+        <div style="text-align: center; margin: 25px 20px 15px 20px;">
+            <h2 style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; margin: 0 0 6px 0;">Maal siif ijaaru <span style="color: var(--neon-green); text-shadow: 0 0 20px var(--neon-glow);">NATA AI</span>?</h2>
+            <p style="font-size: 12px; color: var(--text-dim); margin: 0; line-height: 1.5;">Baga nagaan dhufte! Badhaasni koodii haaraa (100 Coins) herrega keerratti fe'ameera. Gaaffii kee daddaffiin barreessi.</p>
+        </div>
+
+        <!-- Quick AI Prompt Suggested Action Pills -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 20px;">
+            <div class="matrix-item" onclick="quickFillPrompt('Suuraa qulqullina olaanaa qabu kan leenca baaccuu uumi.')">
+                <b style="color: #ec4899; font-size: 13px; display: block; margin-bottom: 3px;">🎨 Image Creator</b>
+                <span style="font-size: 11px; color: var(--text-dim);">Torbanitti suuraa 1 bilisa.</span>
+            </div>
+            <div class="matrix-item" onclick="quickFillPrompt('Afaan Oromoo gara Englishitti hiiki: [Barreessi]')">
+                <b style="color: #3b82f6; font-size: 13px; display: block; margin-bottom: 3px;">🌐 Language Expert</b>
+                <span style="font-size: 11px; color: var(--text-dim);">Hiikkaa daddaffii fi madaalawaa.</span>
+            </div>
+        </div>
+
+        <!-- 6. Real-time Live Response Layout Overlay -->
+        <div class="chat-output-area">
+            <div id="nata-core-response" class="response-container"></div>
+        </div>
+
+        <!-- Monetization System: Middle Adsterra/AdSense Slot Banner -->
+        <div class="ad-network-slot" id="middle-ad-banner" style="margin-top: 15px;">
+            <div style="font-size:11px; text-transform:none; color:var(--text-dim);">Sponsored Ad Slot (Click to view)</div>
+        </div>
+
+        <!-- 7. Bottom Dynamic Control & Navigation Dock -->
+        <div class="control-dock">
+            <div class="pill-input-group">
+                <input type="text" id="nata-user-input" placeholder="NATA AI gaafadhu...">
+                <button class="send-pill-btn" onclick="processInteractiveAI()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#022c1b" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
             </div>
             
-            <!-- Bottom Tab Switcher -->
-            <div class="nav-dock">
-                <div class="nav-item active">
-                    <span style="font-size: 18px;">💬</span>
-                    <span style="margin-top:2px;">Chat</span>
+            <!-- Bottom Tab Matrix Switching Bar -->
+            <div style="display: flex; justify-content: space-around; background: rgba(18, 27, 46, 0.85); border: 1px solid var(--glass-border); border-radius: 30px; padding: 12px; margin-top: 14px; backdrop-filter: blur(15px);">
+                <div style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color: var(--neon-green);" onclick="scrollToTop()">
+                    <span style="font-size:18px;">💬</span><span style="font-size:10px; font-weight:700; margin-top:2px;">Chat Core</span>
                 </div>
-                <div class="nav-item" onclick="openPaymentSheet('Premium Tier', '50 ETB')">
-                    <span style="font-size: 18px;">💎</span>
-                    <span style="margin-top:2px;">Premium</span>
+                <div style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color: var(--text-dim);" onclick="openPricingModal()">
+                    <span style="font-size:18px;">👑</span><span style="font-size:10px; font-weight:700; margin-top:2px;">Premium Plans</span>
                 </div>
             </div>
         </div>
 
-    </div> <!-- End of App Container -->
-        <div id="payment-modal-popup" class="pay-modal">
-        <div class="pay-box">
-            <button class="modal-close" onclick="closePaymentSheet()">×</button>
-            <h3 style="margin-top:0; font-weight: 900;" id="pack-label-name">Premium Plan</h3>
+    </div> <!-- End of App Frame Container -->
+        <div id="pricing-tier-sheet" class="tier-modal">
+        <div class="tier-panel-box">
+            <button onclick="closePricingModal()" style="background: none; border: none; color: var(--text-dim); font-size: 26px; float: right; cursor: pointer; font-weight: 700; margin-top: -10px;">&times;</button>
+            <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 900; color: var(--text-pure);">Premium Plan Filadhu</h3>
+            <p style="margin: 0 0 16px 0; font-size: 11px; color: var(--text-dim);">Akkaataa fedhii keetiitiin pakeejii kuusaa kaffaltii filadhu.</p>
             
-            <div class="pay-tabs">
-                <div id="tab-tele" class="pay-tab active tele" onclick="togglePayMethod('telebirr')">Telebirr</div>
-                <div id="tab-mpesa" class="pay-tab" onclick="togglePayMethod('mpesa')">M-Pesa</div>
+            <div class="matrix-grid">
+                <div class="matrix-item" id="tier-Oro" onclick="selectActiveTier('Oro', '10 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--oro-clr);">🌾 ORO</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">10 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Gaaffii 50 dabalataa / Guyyaa 1</span>
+                </div>
+                <div class="matrix-item" id="tier-Gadaa" onclick="selectActiveTier('Gadaa', '50 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--gadaa-clr);">💎 GADAA</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">50 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Gaaffii 400 + Suuraa 5 / Torban 1</span>
+                </div>
+                <div class="matrix-item" id="tier-Melbaa" onclick="selectActiveTier('Melbaa', '150 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--melbaa-clr);">🌙 MELBAA</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">150 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Chat Daangaa Malee + Suuraa 30 / Ji'a 1</span>
+                </div>
+                <div class="matrix-item" id="tier-Bokku" onclick="selectActiveTier('Bokku', '500 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--bokku-clr);">👑 BOKKU</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">500 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Hunda Daangaa Malee / Waggaa 1</span>
+                </div>
             </div>
-            
-            <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">Kaffaltii gara lakkoofsa kanaan ergi:</div>
-            <div id="target-phone-num" class="pay-num-display">0917164052</div>
-            
-            <input type="text" id="input-sender-phone" placeholder="Lakkoofsa Bilbila Kee...">
-            <input type="text" id="input-tx-id" placeholder="Transaction ID (Koodii Kaffaltii)...">
-            
-            <button class="submit-pay" onclick="commitPaymentToFirebase()">Kaffaltii Mirkaneessi</button>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button id="method-telebirr" onclick="switchPayMethod('telebirr')" style="flex:1; padding:10px; background: rgba(16,185,129,0.15); border:1px solid var(--neon-green); border-radius:12px; color:white; font-weight:700; font-size:12px; cursor:pointer;">Telebirr</button>
+                <button id="method-mpesa" onclick="switchPayMethod('mpesa')" style="flex:1; padding:10px; background: rgba(255,255,255,0.02); border:1px solid var(--glass-border); border-radius:12px; color:var(--text-dim); font-weight:700; font-size:12px; cursor:pointer;">M-Pesa</button>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 14px; text-align: center; border: 1px solid var(--glass-border); margin-bottom: 14px;">
+                <div style="font-size: 10px; color: var(--text-dim);" id="payment-guide-txt">Telebirr kaffaltii irratti erguuf:</div>
+                <div style="font-size: 16px; font-weight: 900; color: var(--neon-green); margin-top: 2px;" id="vendor-phone-display">0917164052</div>
+            </div>
+
+            <input type="text" id="sender-phone" placeholder="Lakkoofsa bilbila kaffaltii itti goote..." style="width:100%; padding:12px; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:12px; color:white; font-size:13px; margin-bottom:8px; box-sizing:border-box; outline:none;">
+            <input type="text" id="transaction-id" placeholder="Koodii Kaffaltii (Transaction ID)..." style="width:100%; padding:12px; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:12px; color:white; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
+
+            <button onclick="submitSecurePayment()" style="width:100%; padding:14px; background: var(--neon-green); border:none; border-radius:12px; color:#022c1b; font-weight:900; font-size:14px; cursor:pointer; box-shadow: 0 4px 20px var(--neon-glow);">Mirkaneessa Kaffaltii Ergi</button>
         </div>
     </div>
 
     <script>
-        // Firebase Configurations - Node kee waliin qunnama
         const firebaseConfig = {
-            apiKey: "AIzaSyDummyKey_PleaseChangeIfNeeded", 
+            apiKey: "AIzaSyDummyKey_PleaseChangeIfNeeded",
             authDomain: "nata-ai.firebaseapp.com",
             databaseURL: "https://nata-ai-default-rtdb.firebaseio.com",
             projectId: "nata-ai",
             storageBucket: "nata-ai.appspot.com",
             messagingSenderId: "236263948485",
-            appId: "1:236263948485:web:b395c62a9dcd499ec330ac",
-            measurementId: "G-TM1J5S0NXT"
+            appId: "1:236263948485:web:b395c62a9dcd499ec330ac"
         };
 
-        // Initialize Firebase Backend
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const database = firebase.database();
+        const db = firebase.database();
 
-        let currentUserRef = null;
-        let userCoins = 0;
-        let activeMethod = 'telebirr';
-        let currentActivePack = 'Premium';
+        let userRef = null;
+        let localCoins = 0;
+        let localPlan = "FREE TIER";
+        let localStatus = "free";
+        let currentSelectedTier = "Oro";
+        let currentPayMethod = "telebirr";
 
-        // Automatic Anonymous Authentication & Coin Tracking
+        let dailyLimitCounter = 0;
+        let weeklyImageCounter = 0;
+
         auth.onAuthStateChanged((user) => {
             if (user) {
-                currentUserRef = database.ref('users/' + user.uid);
-                currentUserRef.on('value', (snapshot) => {
-                    const data = snapshot.val();
-                    if (data) { 
-                        userCoins = data.coins; 
-                    } else { 
-                        userCoins = 100; // Gift for new active users
-                        currentUserRef.set({ coins: userCoins }); 
+                userRef = db.ref('users/' + user.uid);
+                userRef.on('value', (snapshot) => {
+                    const profile = snapshot.val();
+                    const todayDateStr = new Date().toISOString().split('T')[0];
+                    const currentWeekNum = getWeekNumber(new Date());
+
+                    if (profile) {
+                        localCoins = profile.coins ?? 0;
+                        localPlan = profile.plan ?? "FREE TIER";
+                        localStatus = profile.status ?? "free";
+                        
+                        if (profile.lastQueryDate !== todayDateStr) {
+                            dailyLimitCounter = 0;
+                            userRef.update({ dailyQueries: 0, lastQueryDate: todayDateStr });
+                        } else {
+                            dailyLimitCounter = profile.dailyQueries ?? 0;
+                        }
+
+                        if (profile.lastImageWeek !== currentWeekNum) {
+                            weeklyImageCounter = 0;
+                            userRef.update({ weeklyImages: 0, lastImageWeek: currentWeekNum });
+                        } else {
+                            weeklyImageCounter = profile.weeklyImages ?? 0;
+                        }
+
+                    } else {
+                        // AUTOMATED SYSTEM SECURITY RULE: Award 100 free coins on initial registration!
+                        localCoins = 100;
+                        localPlan = "FREE TIER";
+                        userRef.set({
+                            coins: 100,
+                            plan: "FREE TIER",
+                            status: "free",
+                            dailyQueries: 0,
+                            weeklyImages: 0,
+                            lastQueryDate: todayDateStr,
+                            lastImageWeek: currentWeekNum,
+                            joinedAt: Date.now()
+                        });
                     }
-                    document.getElementById('coin-txt').innerText = userCoins + " Coins";
+                    
+                    document.getElementById('coin-txt').innerText = localCoins + " Coins";
+                    document.getElementById('active-plan-txt').innerText = localPlan.toUpperCase();
+                    document.getElementById('user-tier-badge').innerText = localPlan === "FREE TIER" ? "👑 Free Member" : `⚡ ${localPlan} Pro`;
                 });
             } else {
-                auth.signInAnonymously().catch(err => console.error("Auth error:", err));
+                auth.signInAnonymously().catch(err => console.error("Session Auth Failure: ", err));
             }
         });
 
-        // Payment Screen Functions
-        function openPaymentSheet(name, price) {
-            currentActivePack = name;
-            document.getElementById('pack-label-name').innerText = `${name} (${price})`;
-            document.getElementById('payment-modal-popup').style.display = 'flex';
-            togglePayMethod('telebirr');
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
         }
 
-        function closePaymentSheet() {
-            document.getElementById('payment-modal-popup').style.display = 'none';
+        function openPricingModal() {
+            document.getElementById('pricing-tier-sheet').style.display = 'flex';
+            selectActiveTier('Oro', '10 ETB');
         }
 
-        function togglePayMethod(method) {
-            activeMethod = method;
-            const t = document.getElementById('tab-tele');
-            const m = document.getElementById('tab-mpesa');
-            const num = document.getElementById('target-phone-num');
+        function closePricingModal() {
+            document.getElementById('pricing-tier-sheet').style.display = 'none';
+        }
+                        // 10. PREMIUM INTERACTIVE CONTROL CONTROLLER
+        function selectActiveTier(tier, price) {
+            currentSelectedTier = tier;
+            const tiers = ['Oro', 'Gadaa', 'Melbaa', 'Bokku'];
+            tiers.forEach(t => {
+                document.getElementById('tier-' + t).className = 'matrix-item';
+            });
+            document.getElementById('tier-' + tier).className = 'matrix-item selected';
+        }
 
+        function switchPayMethod(method) {
+            currentPayMethod = method;
+            const tele = document.getElementById('method-telebirr');
+            const mpesa = document.getElementById('method-mpesa');
+            const display = document.getElementById('vendor-phone-display');
+            const guide = document.getElementById('payment-guide-txt');
+            
             if(method === 'telebirr') {
-                t.className = 'pay-tab active tele';
-                m.className = 'pay-tab';
-                num.innerText = '0917164052';
+                tele.style.background = 'rgba(16,185,129,0.15)';
+                tele.style.borderColor = 'var(--neon-green)';
+                mpesa.style.background = 'rgba(255,255,255,0.02)';
+                mpesa.style.borderColor = 'var(--glass-border)';
+                display.innerText = '0917164052';
+                guide.innerText = 'Telebirr kaffaltii irratti erguuf:';
             } else {
-                m.className = 'pay-tab active mpesa';
-                t.className = 'pay-tab';
-                num.innerText = '0715323741';
+                mpesa.style.background = 'rgba(16,185,129,0.15)';
+                mpesa.style.borderColor = 'var(--neon-green)';
+                tele.style.background = 'rgba(255,255,255,0.02)';
+                tele.style.borderColor = 'var(--glass-border)';
+                display.innerText = '0715323741';
+                guide.innerText = 'M-Pesa kaffaltii irratti erguuf:';
             }
         }
 
-        // Commit Pending Payments to Admin Dashboard panel
-        function commitPaymentToFirebase() {
-            const ph = document.getElementById('input-sender-phone').value.trim();
-            const tx = document.getElementById('input-tx-id').value.trim();
-
-            if (!ph || !tx) { 
-                alert("Maaloo guutummaatti unka guutaa!"); 
-                return; 
+        function submitSecurePayment() {
+            const phone = document.getElementById('sender-phone').value.trim();
+            const txId = document.getElementById('transaction-id').value.trim();
+            
+            if(!phone || !txId) {
+                alert("⚠️ Maaloo lakkoofsa bilbilaa fi Transaction ID guutummaatti guuti!");
+                return;
             }
-
-            database.ref('payment_requests').push().set({
+            
+            db.ref('payment_requests').push().set({
                 userId: auth.currentUser.uid,
-                pack: currentActivePack,
-                method: activeMethod,
-                phone: ph,
-                transactionId: tx,
-                status: "pending",
+                tier: currentSelectedTier,
+                method: currentPayMethod,
+                senderPhone: phone,
+                transactionId: txId,
+                status: 'pending',
                 timestamp: Date.now()
             }).then(() => {
-                alert("Kaffaltii keessan ergitanii jirtu! SMS bilbila keessaniirratti laallee daddaffiin isiniif mirkaneessina.");
-                closePaymentSheet();
-                document.getElementById('input-sender-phone').value = '';
-                document.getElementById('input-tx-id').value = '';
-            }).catch(err => {
-                alert("Rakkina bafata kaffaltii: " + err.message);
+                alert("✅ Mirkaneessi kee admin bira ga'eera! Daddaffiin bafata kee siif banu.");
+                closePricingModal();
+                document.getElementById('sender-phone').value = '';
+                document.getElementById('transaction-id').value = '';
             });
         }
 
-        function useQuickPrompt(text) {
-            document.getElementById('user-input-box').value = text;
-            document.getElementById('user-input-box').focus();
+        function quickFillPrompt(txt) {
+            document.getElementById('nata-user-input').value = txt;
+            document.getElementById('nata-user-input').focus();
         }
 
-        // Advanced AI Handler connecting directly to your Vercel Node API
-        async function submitAIPrompt() {
-            const val = document.getElementById('user-input-box').value.trim();
-            const resBox = document.getElementById('dynamic-response');
-
-            if(!val) return;
-            if(userCoins <= 0) { 
-                alert("⚠️ Lakkoofsa Coin keessan dhumateera, maaloo guuttadhadha!"); 
-                return; 
+        // 11. ULTRA-FAST SEC-LEVEL WEBSITE SCANNER CORE (RUNS IN SECONDS)
+        async function executeWebsiteScan() {
+            const urlInput = document.getElementById('scanner-url-input').value.trim();
+            const resBox = document.getElementById('nata-core-response');
+            
+            if(!urlInput) {
+                alert("⚠️ Maaloo dura URL weebsaaytii scan ta'u galchi!");
+                return;
             }
-
+            
             resBox.style.display = 'block';
-            resBox.innerHTML = "🔄 <span style='color:var(--neon-green)'>NATA AI yaadaa jira...</span>";
-
+            resBox.innerHTML = `<div style="color:var(--neon-green); font-weight:700; font-size:13px;"><span style="display:inline-block; animation: spin 1s linear infinite; margin-right:6px;">🔄</span> NATA CyberAgent: Weebsaaytii ${urlInput} scan gochaa jira... Sekondii muraasa eigi!</div>`;
+            
             try {
-                // Call live Vercel Serverless Function backend API route
                 const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ prompt: val })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: 'scan', url: urlInput })
                 });
-
-                if (!response.ok) throw new Error("API Route failure");
+                
                 const data = await response.json();
-
-                if (data.text) {
-                    // Update user's coin balance in Firebase after a successful query
-                    userCoins -= 1;
-                    await currentUserRef.update({ coins: userCoins });
-                    
-                    // Render formatted AI response line breaks cleanly
-                    resBox.innerHTML = `🤖 <b style="color:var(--neon-green)">[NATA AI]:</b><br><br>${data.text.replace(/\n/g, '<br>')}`;
-                    document.getElementById('user-input-box').value = '';
+                if(data.text) {
+                    // Clean and ultra-beautiful typo-free rendering text block
+                    resBox.innerHTML = `<div style="border-bottom:1px solid var(--glass-border); padding-bottom:8px; margin-bottom:10px;"><b style="color:var(--neon-green); font-size:15px;">📊 GABAASA SCANNING NATA AI</b></div><div style="color:#f8fafc; font-size:13.5px; line-height:1.7;">${data.text.replace(/\n/g, '<br>')}</div>`;
+                    document.getElementById('scanner-url-input').value = '';
                 } else {
-                    resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Dogoggorri API uumameera. Deebisaa yaala.`;
+                    resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Gabaasni scanner fashalaa'eera. Maaloo URL sirrii galchuu kee mirkaneessi.`;
                 }
-            } catch (error) {
-                console.error("AI Error:", error);
-                resBox.innerHTML = "⚠️ <b>[NATA AI]:</b> Server backend kee qunnamuu hin dandeenye ykn koodii node js irratti fashalaa'eera.";
+            } catch(err) {
+                resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Gara backend qunnamuun hin danda'amne. Server kee tora irra jiraachuu laali.`;
             }
         }
 
-        // Future Expansions Hooks (Scanner and Ads Setup Placeholders)
-        function runWebsiteScanner(targetUrl) {
-            console.log("Scanner triggered for URL:", targetUrl);
-            // Gara fulduraatti koodii scanner ketti qunnamsiisi asirratti
+        // 12. HIGH-PERFORMANCE FLUID AI CHAT RESPONSE GENERATOR
+        async function processInteractiveAI() {
+            const promptInput = document.getElementById('nata-user-input').value.trim();
+            const resBox = document.getElementById('nata-core-response');
+            
+            if(!promptInput) return;
+            
+            const isImage = promptInput.toLowerCase().includes('suura') || promptInput.toLowerCase().includes('image');
+            
+            // Apply Rigid Freemium Security Protection Rules
+            if(localStatus === 'free') {
+                if(isImage && weeklyImageCounter >= 1) {
+                    alert("⚠️ Daangaa suuraa bilisaa kee kan torbanii xumurtaniittu! Maaloo gara Gadaa, Melbaa ykn Bokku tti upgrade godhaa.");
+                    openPricingModal();
+                    return;
+                }
+                if(!isImage && dailyLimitCounter >= 10 && localCoins <= 0) {
+                    alert("⚠️ Har'aaf daangaa gaaffii bilisaa 10 xumurtaniittu, herrega Coin keessanis 0 dha. Maaloo Pakeejii Oro bitadhaa!");
+                    openPricingModal();
+                    return;
+                }
+            }
+            
+            resBox.style.display = 'block';
+            resBox.innerHTML = `<div style="color:var(--text-dim); font-size:13px;">⚡ NATA AI yaadaa jira...</div>`;
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: promptInput })
+                });
+                
+                const data = await response.json();
+                if(data.text) {
+                    // Update user metrics dynamically inside the Firebase securely
+                    if(localStatus === 'free') {
+                        if(isImage) {
+                            weeklyImageCounter++;
+                            await userRef.update({ weeklyImages: weeklyImageCounter, lastImageWeek: getWeekNumber(new Date()) });
+                        } else {
+                            if(dailyLimitCounter < 10) {
+                                dailyLimitCounter++;
+                                await userRef.update({ dailyQueries: dailyLimitCounter });
+                            } else {
+                                localCoins--;
+                                await userRef.update({ coins: localCoins });
+                            }
+                        }
+                    }
+                    
+                    // Render clean typo-free fluid text layout smoothly
+                    resBox.innerHTML = `<div style="margin-bottom:8px;"><b style="color:var(--neon-green);">🤖 NATA AI:</b></div><div style="color:#f1f5f9; font-size:14px; line-height:1.65;">${data.text.replace(/\n/g, '<br>')}</div>`;
+                    document.getElementById('nata-user-input').value = '';
+                } else {
+                    resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Core Engine deebii fiduu hin dandeenye.`;
+                }
+            } catch(err) {
+                resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Dogoggora Network backend uumameera.`;
+            }
         }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="om">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATA AI - Premium Freemium Platform</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-master: #040711;
+            --glass-surface: rgba(11, 18, 33, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --neon-green: #10b981;
+            --neon-glow: rgba(16, 185, 129, 0.25);
+            --text-pure: #ffffff;
+            --text-dim: #94a3b8;
+            --gold: #f59e0b;
+            
+            /* Pricing Tiers Identity Colors */
+            --oro-clr: #3b82f6;
+            --gadaa-clr: #10b981;
+            --melbaa-clr: #f59e0b;
+            --bokku-clr: #ec4899;
+        }
+
+        body {
+            background-color: var(--bg-master);
+            color: var(--text-pure);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app-frame {
+            width: 100%;
+            max-width: 450px;
+            background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 50%), 
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.03), transparent 40%), #070b14;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: 150px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Fixed Top Navigation Bar */
+        .premium-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            position: sticky;
+            top: 0;
+            background: rgba(7, 11, 20, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sys-badge {
+            font-size: 10px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-weight: 700;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        /* Balance & Plan Widgets Row */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 16px 20px 8px 20px;
+        }
+
+        .crypto-widget {
+            background: var(--glass-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .crypto-widget:active { transform: scale(0.96); }
+
+        /* Adsterra/AdSense Banner Integration Slots */
+        .ad-network-slot {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            margin: 10px 20px;
+            padding: 12px;
+            border-radius: 14px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        /* Integrated Website Scanner Element UI */
+        .scanner-card {
+            background: linear-gradient(135deg, rgba(11, 18, 33, 0.9), rgba(4, 7, 17, 0.95));
+            border: 1px solid var(--glass-border);
+            margin: 10px 20px;
+            padding: 18px;
+            border-radius: 22px;
+        }
+
+        .scanner-capsule {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 4px;
+            margin-top: 12px;
+        }
+
+        .scanner-capsule input {
+            flex: 1; background: none; border: none; color: white; padding: 12px; font-size: 13px; outline: none;
+        }
+
+        .scan-trigger-btn {
+            background: var(--neon-green); color: #022c1b; border: none; padding: 0 16px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; transition: opacity 0.2s;
+        }
+
+        /* Response View Layout */
+        .chat-output-area {
+            padding: 10px 20px;
+        }
+
+        .response-container {
+            background: rgba(11, 18, 33, 0.5);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--neon-green);
+            border-radius: 4px 22px 22px 22px;
+            padding: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Control Dock */
+        .control-dock {
+            position: fixed;
+            bottom: 0; width: 100%; max-width: 450px;
+            background: linear-gradient(to top, #040711 82%, transparent);
+            padding: 10px 20px 24px 20px;
+            box-sizing: border-box;
+            z-index: 999;
+        }
+
+        .pill-input-group {
+            background: rgba(18, 27, 46, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            padding: 4px 6px 4px 22px;
+            backdrop-filter: blur(20px);
+        }
+
+        .pill-input-group input {
+            flex: 1; background: none; border: none; color: white; padding: 14px 0; font-size: 14px; outline: none;
+        }
+
+        .send-pill-btn {
+            width: 46px; height: 46px; background: linear-gradient(135deg, var(--neon-green), #047857); border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px var(--neon-glow);
+        }
+
+        /* Freemium Tier Plan Modal Sheet CSS */
+        .tier-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 3, 7, 0.94); z-index: 2000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(12px);
+        }
+
+        .tier-panel-box {
+            background: #0b1221; border: 1px solid var(--glass-border); border-radius: 28px; padding: 22px; width: 100%; max-width: 400px; box-sizing: border-box;
+            max-height: 90vh; overflow-y: auto;
+        }
+
+        .matrix-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0;
+        }
+
+        .matrix-item {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; cursor: pointer; transition: all 0.2s ease;
+        }
+
+        .matrix-item.selected { border-color: var(--neon-green); background: rgba(16, 185, 129, 0.08); }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
         
-        function showInterstitialAd() {
-            console.log("Ad Network initialization invoked");
-            // Adsterra ykn Google AdSense script as jala galchita
+        <div class="premium-nav">
+            <div>
+                <span class="nav-brand">NATA AI</span>
+                <div style="font-size: 10px; color: var(--text-dim); font-weight: 600; margin-top:-2px;">NextGen Intelligence</div>
+            </div>
+            <div class="sys-badge" id="user-tier-badge">👑 Free Member</div>
+        </div>
+
+        <div class="dashboard-widgets">
+            <div class="crypto-widget" onclick="openPricingModal()">
+                <span style="font-size: 22px; filter: drop-shadow(0 0 8px var(--gold));">🪙</span>
+                <div>
+                    <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">My Balance</div>
+                    <div style="font-size: 15px; font-weight: 900; color: var(--gold);" id="coin-txt">... Coins</div>
+                </div>
+            </div>
+            <div class="crypto-widget" onclick="openPricingModal()" style="border-color: rgba(16, 185, 129, 0.2);">
+                <span style="font-size: 22px; filter: drop-shadow(0 0 8px var(--neon-green));">🚀</span>
+                <div>
+                    <div style="font-size: 10px; color: var(--text-dim); font-weight:600;">Active Plan</div>
+                    <div style="font-size: 15px; font-weight: 900; color: var(--neon-green);" id="active-plan-txt">FREE TIER</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-network-slot" id="top-ad-placement">
+            <span style="color: var(--gold); font-weight: 700;">📢 ADVERTISEMENT</span>
+            <div style="color: white; font-size: 12px; margin-top: 4px;">Dargaggoota keenyaaf: Beeksisa kanneen tuquun nu deeggaraa!</div>
+        </div>
+
+        <div class="scanner-card">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 22px;">🔍</span>
+                <div>
+                    <h4 style="margin: 0; font-size: 14px; font-weight: 800;">Premium Website Scanner</h4>
+                    <p style="margin: 2px 0 0 0; font-size: 11px; color: var(--text-dim);">URL galchuun nageenya fi SEO weebsaaytii scan godhaa.</p>
+                </div>
+            </div>
+            <div class="scanner-capsule">
+                <input type="url" id="scanner-url-input" placeholder="https://example.com">
+                <button class="scan-trigger-btn" onclick="executeWebsiteScan()">Scan Now</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 20px 15px 20px;">
+            <h2 style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; margin: 0 0 6px 0;">Maal siif ijaaru <span style="color: var(--neon-green); text-shadow: 0 0 20px var(--neon-glow);">NATA AI</span>?</h2>
+            <p style="font-size: 12px; color: var(--text-dim); margin: 0; line-height: 1.5;">Badhaasni koodii haaraa (100 Coins) herrega keerratti fe'ameera. Gaaffii kee daddaffiin barreessi.</p>
+        </div>
+
+        <div style="margin: 0 20px 12px 20px;">
+            <button onclick="triggerRewardedAd()" style="width: 100%; background: linear-gradient(135deg, #1e3a8a, #3b82f6); border: 1px solid rgba(59, 130, 246, 0.4); padding: 12px; border-radius: 14px; color: white; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                🎬 Beeksisa Ilaali +5 Coins Bilisaan Argadhu!
+            </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 20px 10px 20px;">
+            <div class="matrix-item" onclick="quickFillPrompt('Suuraa qulqullina olaanaa qabu kan leenca baaccuu uumi.')">
+                <b style="color: #ec4899; font-size: 13px; display: block; margin-bottom: 3px;">🎨 Image Creator</b>
+                <span style="font-size: 11px; color: var(--text-dim);">Torbanitti suuraa 1 bilisa.</span>
+            </div>
+            <div class="matrix-item" onclick="quickFillPrompt('Afaan Oromoo gara Englishitti hiiki: ')">
+                <b style="color: #3b82f6; font-size: 13px; display: block; margin-bottom: 3px;">🌐 Language Expert</b>
+                <span style="font-size: 11px; color: var(--text-dim);">Hiikkaa daddaffii fi madaalawaa.</span>
+            </div>
+        </div>
+
+        <div class="chat-output-area">
+            <div id="nata-core-response" class="response-container"></div>
+        </div>
+
+        <div class="ad-network-slot" id="bottom-ad-placement" style="margin-top: 20px;">
+            <span style="font-size: 10px; color: rgba(255,255,255,0.3);">Sponsored Content Slot</span>
+        </div>
+
+        <div class="control-dock">
+            <div class="pill-input-group">
+                <input type="text" id="nata-user-input" placeholder="NATA AI gaafadhu...">
+                <button class="send-pill-btn" onclick="processInteractiveAI()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#022c1b" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+            
+            <div style="display: flex; justify-content: space-around; background: rgba(18, 27, 46, 0.85); border: 1px solid var(--glass-border); border-radius: 30px; padding: 12px; margin-top: 14px; backdrop-filter: blur(15px);">
+                <div style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color: var(--neon-green);" onclick="scrollToTop()">
+                    <span style="font-size:18px;">💬</span><span style="font-size:10px; font-weight:700; margin-top:2px;">Chat Core</span>
+                </div>
+                <div style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color: var(--text-dim);" onclick="openPricingModal()">
+                    <span style="font-size:18px;">👑</span><span style="font-size:10px; font-weight:700; margin-top:2px;">Premium Plans</span>
+                </div>
+            </div>
+        </div>
+
+    </div> <div id="pricing-tier-sheet" class="tier-modal">
+        <div class="tier-panel-box">
+            <button onclick="closePricingModal()" style="background: none; border: none; color: var(--text-dim); font-size: 26px; float: right; cursor: pointer; font-weight: 700; margin-top: -10px;">&times;</button>
+            <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 900; color: var(--text-pure);">Premium Plan Filadhu</h3>
+            <p style="margin: 0 0 16px 0; font-size: 11px; color: var(--text-dim);">Kaffaluun ykn bilisaan beeksisa ilaaluun fayyadamaa.</p>
+            
+            <div class="matrix-grid">
+                <div class="matrix-item" id="tier-Oro" onclick="selectActiveTier('Oro', '10 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--oro-clr);">🌾 ORO</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">10 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Gaaffii 50 dabalataa / Guyyaa 1</span>
+                </div>
+                <div class="matrix-item" id="tier-Gadaa" onclick="selectActiveTier('Gadaa', '50 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--gadaa-clr);">💎 GADAA</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">50 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Gaaffii 400 + Suuraa 5 / Torban 1</span>
+                </div>
+                <div class="matrix-item" id="tier-Melbaa" onclick="selectActiveTier('Melbaa', '150 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--melbaa-clr);">🌙 MELBAA</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">150 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Chat Daangaa Malee + Suuraa 30 / Ji'a 1</span>
+                </div>
+                <div class="matrix-item" id="tier-Bokku" onclick="selectActiveTier('Bokku', '500 ETB')">
+                    <span style="font-size:11px; font-weight:900; color: var(--bokku-clr);">👑 BOKKU</span>
+                    <div style="font-size:14px; font-weight:900; margin:4px 0;">500 ETB</div>
+                    <span style="font-size:10px; color: var(--text-dim); display:block;">Hunda Daangaa Malee / Waggaa 1</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button id="method-telebirr" onclick="switchPayMethod('telebirr')" style="flex:1; padding:10px; background: rgba(16,185,129,0.15); border:1px solid var(--neon-green); border-radius:12px; color:white; font-weight:700; font-size:12px; cursor:pointer;">Telebirr</button>
+                <button id="method-mpesa" onclick="switchPayMethod('mpesa')" style="flex:1; padding:10px; background: rgba(255,255,255,0.02); border:1px solid var(--glass-border); border-radius:12px; color:var(--text-dim); font-weight:700; font-size:12px; cursor:pointer;">M-Pesa</button>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 14px; text-align: center; border: 1px solid var(--glass-border); margin-bottom: 14px;">
+                <div style="font-size: 10px; color: var(--text-dim);" id="payment-guide-txt">Telebirr kaffaltii irratti erguuf:</div>
+                <div style="font-size: 16px; font-weight: 900; color: var(--neon-green); margin-top: 2px;" id="vendor-phone-display">0917164052</div>
+            </div>
+
+            <input type="text" id="sender-phone" placeholder="Lakkoofsa bilbila kaffaltii itti goote..." style="width:100%; padding:12px; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:12px; color:white; font-size:13px; margin-bottom:8px; box-sizing:border-box; outline:none;">
+            <input type="text" id="transaction-id" placeholder="Koodii Kaffaltii (Transaction ID)..." style="width:100%; padding:12px; background:rgba(0,0,0,0.4); border:1px solid var(--glass-border); border-radius:12px; color:white; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
+
+            <button onclick="submitSecurePayment()" style="width:100%; padding:14px; background: var(--neon-green); border:none; border-radius:12px; color:#022c1b; font-weight:900; font-size:14px; cursor:pointer; box-shadow: 0 4px 20px var(--neon-glow);">Mirkaneessa Kaffaltii Ergi</button>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKey_PleaseChangeIfNeeded",
+            authDomain: "nata-ai.firebaseapp.com",
+            databaseURL: "https://nata-ai-default-rtdb.firebaseio.com",
+            projectId: "nata-ai",
+            storageBucket: "nata-ai.appspot.com",
+            messagingSenderId: "236263948485",
+            appId: "1:236263948485:web:b395c62a9dcd499ec330ac"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        let userRef = null;
+        let localCoins = 0;
+        let localPlan = "FREE TIER";
+        let localStatus = "free";
+        let currentSelectedTier = "Oro";
+        let currentPayMethod = "telebirr";
+
+        let dailyLimitCounter = 0;
+        let weeklyImageCounter = 0;
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                userRef = db.ref('users/' + user.uid);
+                userRef.on('value', (snapshot) => {
+                    const profile = snapshot.val();
+                    const todayDateStr = new Date().toISOString().split('T')[0];
+                    const currentWeekNum = getWeekNumber(new Date());
+
+                    if (profile) {
+                        localCoins = profile.coins ?? 0;
+                        localPlan = profile.plan ?? "FREE TIER";
+                        localStatus = profile.status ?? "free";
+                        
+                        if (profile.lastQueryDate !== todayDateStr) {
+                                                        dailyLimitCounter = 0;
+                            userRef.update({ dailyQueries: 0, lastQueryDate: todayDateStr });
+                        } else {
+                            dailyLimitCounter = profile.dailyQueries ?? 0;
+                        }
+
+                        if (profile.lastImageWeek !== currentWeekNum) {
+                            weeklyImageCounter = 0;
+                            userRef.update({ weeklyImages: 0, lastImageWeek: currentWeekNum });
+                        } else {
+                            weeklyImageCounter = profile.weeklyImages ?? 0;
+                        }
+
+                    } else {
+                        localCoins = 100;
+                        localPlan = "FREE TIER";
+                        userRef.set({
+                            coins: 100,
+                            plan: "FREE TIER",
+                            status: "free",
+                            dailyQueries: 0,
+                            weeklyImages: 0,
+                            lastQueryDate: todayDateStr,
+                            lastImageWeek: currentWeekNum,
+                            joinedAt: Date.now()
+                        });
+                    }
+                    
+                    document.getElementById('coin-txt').innerText = localCoins + " Coins";
+                    document.getElementById('active-plan-txt').innerText = localPlan.toUpperCase();
+                    document.getElementById('user-tier-badge').innerText = localPlan === "FREE TIER" ? "👑 Free Member" : `⚡ ${localPlan} Pro`;
+                });
+            } else {
+                auth.signInAnonymously().catch(err => console.error("Session Auth Failure: ", err));
+            }
+        });
+
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+        }
+
+        // REWARDED ADLOGIC: Simulating Adsterra Popunder/Direct link to earn free coins
+        function triggerRewardedAd() {
+            alert("🎬 Beeksisa sa'aa 5 fiduuf jira. Maaloo ad-blocker cumiitii deebii eigi!");
+            
+            // Kaayyoo kana irratti URL Direct Link Adsterra keetii banuu dandeessa:
+            // window.open('https://www.highrateprofit.com/your-adsterra-id', '_blank');
+
+            setTimeout(() => {
+                localCoins += 5;
+                if(userRef) {
+                    userRef.update({ coins: localCoins }).then(() => {
+                        alert("✅ Baay'ee galatoomaa! Beeksisa waan ilaaltaniif +5 Coins herrega keessanitti fe'ameera.");
+                    });
+                }
+            }, 3000); // Sekondii 3 booda coin ni fe'ama
+        }
+
+        function openPricingModal() {
+            document.getElementById('pricing-tier-sheet').style.display = 'flex';
+            selectActiveTier('Oro', '10 ETB');
+        }
+
+        function closePricingModal() {
+            document.getElementById('pricing-tier-sheet').style.display = 'none';
+        }
+
+        function selectActiveTier(tier, price) {
+            currentSelectedTier = tier;
+            const tiers = ['Oro', 'Gadaa', 'Melbaa', 'Bokku'];
+            tiers.forEach(t => {
+                document.getElementById('tier-' + t).className = 'matrix-item';
+            });
+            document.getElementById('tier-' + tier).className = 'matrix-item selected';
+        }
+
+        function switchPayMethod(method) {
+            currentPayMethod = method;
+            const tele = document.getElementById('method-telebirr');
+            const mpesa = document.getElementById('method-mpesa');
+            const display = document.getElementById('vendor-phone-display');
+            const guide = document.getElementById('payment-guide-txt');
+            
+            if(method === 'telebirr') {
+                tele.style.background = 'rgba(16,185,129,0.15)';
+                tele.style.borderColor = 'var(--neon-green)';
+                mpesa.style.background = 'rgba(255,255,255,0.02)';
+                mpesa.style.borderColor = 'var(--glass-border)';
+                display.innerText = '0917164052';
+                guide.innerText = 'Telebirr kaffaltii irratti erguuf:';
+            } else {
+                mpesa.style.background = 'rgba(16,185,129,0.15)';
+                mpesa.style.borderColor = 'var(--neon-green)';
+                tele.style.background = 'rgba(255,255,255,0.02)';
+                tele.style.borderColor = 'var(--glass-border)';
+                display.innerText = '0715323741';
+                guide.innerText = 'M-Pesa kaffaltii irratti erguuf:';
+            }
+        }
+
+        function submitSecurePayment() {
+            const phone = document.getElementById('sender-phone').value.trim();
+            const txId = document.getElementById('transaction-id').value.trim();
+            
+            if(!phone || !txId) {
+                alert("⚠️ Maaloo lakkoofsa bilbilaa fi Transaction ID guutummaatti guuti!");
+                return;
+            }
+            
+            db.ref('payment_requests').push().set({
+                userId: auth.currentUser.uid,
+                tier: currentSelectedTier,
+                method: currentPayMethod,
+                senderPhone: phone,
+                transactionId: txId,
+                status: 'pending',
+                timestamp: Date.now()
+            }).then(() => {
+                alert("✅ Mirkaneessi kee admin bira ga'eera! Daddaffiin bafata kee siif banu.");
+                closePricingModal();
+                document.getElementById('sender-phone').value = '';
+                document.getElementById('transaction-id').value = '';
+            });
+        }
+
+        function quickFillPrompt(txt) {
+            document.getElementById('nata-user-input').value = txt;
+            document.getElementById('nata-user-input').focus();
+        }
+
+        // WEBSITE SCANNER CORE (RUNS IN SECONDS)
+        async function executeWebsiteScan() {
+            const urlInput = document.getElementById('scanner-url-input').value.trim();
+            const resBox = document.getElementById('nata-core-response');
+            
+            if(!urlInput) {
+                alert("⚠️ Maaloo dura URL weebsaaytii scan ta'u galchi!");
+                return;
+            }
+            
+            resBox.style.display = 'block';
+            resBox.innerHTML = `<div style="color:var(--neon-green); font-weight:700; font-size:13px;">🔄 NATA CyberAgent: Weebsaaytii ${urlInput} scan gochaa jira... Sekondii muraasa eigi!</div>`;
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: 'scan', url: urlInput })
+                });
+                
+                const data = await response.json();
+                if(data.text) {
+                    resBox.innerHTML = `<div style="border-bottom:1px solid var(--glass-border); padding-bottom:8px; margin-bottom:10px;"><b style="color:var(--neon-green); font-size:15px;">📊 GABAASA SCANNING NATA AI</b></div><div style="color:#f8fafc; font-size:13.5px; line-height:1.7;">${data.text.replace(/\n/g, '<br>')}</div>`;
+                    document.getElementById('scanner-url-input').value = '';
+                } else {
+                    resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Gabaasni scanner fashalaa'eera.`;
+                }
+            } catch(err) {
+                resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Gara backend qunnamuun hin danda'amne.`;
+            }
+        }
+
+        // HIGH-PERFORMANCE FLUID AI CHAT RESPONSE GENERATOR
+        async function processInteractiveAI() {
+            const promptInput = document.getElementById('nata-user-input').value.trim();
+            const resBox = document.getElementById('nata-core-response');
+            
+            if(!promptInput) return;
+            
+            const isImage = promptInput.toLowerCase().includes('suura') || promptInput.toLowerCase().includes('image');
+            
+            if(localStatus === 'free') {
+                if(isImage && weeklyImageCounter >= 1) {
+                    alert("⚠️ Daangaa suuraa bilisaa kee kan torbanii xumurtaniittu! Maaloo beeksisa ilaaluun coin kuufadhaa ykn upgrade godhaa.");
+                    openPricingModal();
+                    return;
+                }
+                if(!isImage && dailyLimitCounter >= 10 && localCoins <= 0) {
+                    alert("⚠️ Daangaa bilisaa xumurtaniittu! Gadi bu'uun button 'Beeksisa Ilaali' jedhu tuquun Coin bilisaan kuufadhaa.");
+                    return;
+                }
+            }
+            
+            resBox.style.display = 'block';
+            resBox.innerHTML = `<div style="color:var(--text-dim); font-size:13px;">⚡ NATA AI yaadaa jira...</div>`;
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: promptInput })
+                });
+                
+                const data = await response.json();
+                if(data.text) {
+                    if(localStatus === 'free') {
+                        if(isImage) {
+                            weeklyImageCounter++;
+                            await userRef.update({ weeklyImages: weeklyImageCounter, lastImageWeek: getWeekNumber(new Date()) });
+                        } else {
+                            if(dailyLimitCounter < 10) {
+                                dailyLimitCounter++;
+                                await userRef.update({ dailyQueries: dailyLimitCounter });
+                            } else {
+                                localCoins--;
+                                await userRef.update({ coins: localCoins });
+                            }
+                        }
+                    }
+                    
+                    resBox.innerHTML = `<div style="margin-bottom:8px;"><b style="color:var(--neon-green);">🤖 NATA AI:</b></div><div style="color:#f1f5f9; font-size:14px; line-height:1.65;">${data.text.replace(/\n/g, '<br>')}</div>`;
+                    document.getElementById('nata-user-input').value = '';
+                } else {
+                    resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Core Engine deebii fiduu hin dandeenye.`;
+                }
+            } catch(err) {
+                resBox.innerHTML = `⚠️ <b>[NATA AI]:</b> Dogoggora Network backend uumameera.`;
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
